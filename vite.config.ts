@@ -9,6 +9,7 @@ import { media, meta } from './src/data/wedding.ts'
 function htmlMeta(siteUrl: string, base: string): Plugin {
   const escape = (s: string) =>
     s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  const attr = (s: string) => escape(s).replace(/\r?\n/g, '&#10;')
   const abs = (p: string) => (/^https?:/.test(p) ? p : `${siteUrl}/${p.replace(/^\//, '')}`)
   return {
     name: 'wedding-html-meta',
@@ -18,7 +19,7 @@ function htmlMeta(siteUrl: string, base: string): Plugin {
       }
       return html
         .replaceAll('__OG_TITLE__', escape(meta.title))
-        .replaceAll('__OG_DESCRIPTION__', escape(meta.description))
+        .replaceAll('__OG_DESCRIPTION__', attr(meta.description))
         .replaceAll('__OG_IMAGE__', escape(siteUrl ? abs(meta.ogImage) : `${base}${meta.ogImage}`))
         .replaceAll('__SITE_URL__', escape(siteUrl ? `${siteUrl}/` : base))
         .replaceAll('__HERO_IMAGE__', escape(`${base}${media.heroImage.replace(/^\//, '')}`))
@@ -34,7 +35,10 @@ export default defineConfig(({ mode }) => {
   // GitHub Actions 에서는 BASE_PATH 가 자동으로 주입됩니다(.github/workflows/deploy.yml).
   const rawBase = env.BASE_PATH || '/'
   const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`
-  const siteUrl = (env.VITE_SITE_URL || '').replace(/\/$/, '')
+  const rawSiteUrl = (env.VITE_SITE_URL || '').replace(/\/$/, '')
+  const siteUrl = /^http:\/\/(localhost|127\.0\.0\.1)([:/]|$)/.test(rawSiteUrl)
+    ? rawSiteUrl
+    : rawSiteUrl.replace(/^http:\/\//, 'https://')
 
   return {
     base,

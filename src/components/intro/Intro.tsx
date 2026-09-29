@@ -1,8 +1,9 @@
 import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { bride, groom } from '../../data/wedding'
+import { bride, groom, media } from '../../data/wedding'
 import { useScrollLock } from '../../hooks/useScrollLock'
+import { asset } from '../../lib/asset'
 import { wd } from '../../lib/date'
 import { music } from '../../lib/music'
 import styles from './Intro.module.css'
@@ -71,6 +72,15 @@ export function Intro({ onDone }: { onDone: () => void }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.75, ease: EASE } }}
         >
+          <img
+            className={styles.photo}
+            src={asset(media.heroImage)}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            decoding="async"
+          />
+          <div className={styles.overlay} aria-hidden="true" />
           <div className={styles.grain} aria-hidden="true" />
 
           <m.div
