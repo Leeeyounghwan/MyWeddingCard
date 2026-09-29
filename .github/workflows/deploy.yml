@@ -37,14 +37,32 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      # 커스텀 도메인(예: www.27-04-25.o-r.kr)은 저장소 루트(/)에서 서비스됩니다.
+      # base_path=/MyWeddingCard 로 빌드하면 JS·CSS가 /MyWeddingCard/assets/... 를 찾아 404 → 빈 화면.
+      - name: Resolve base path
+        id: base
+        run: |
+          base_url="${{ steps.pages.outputs.base_url }}"
+          base_path="${{ steps.pages.outputs.base_path }}"
+          base_url="${base_url%/}"
+          if [[ "$base_url" == *"github.io"* ]]; then
+            if [[ -n "$base_path" && "$base_path" != "/" ]]; then
+              echo "path=${base_path}/" >> "$GITHUB_OUTPUT"
+            else
+              echo "path=/" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "path=/" >> "$GITHUB_OUTPUT"
+          fi
+          echo "site_url=$base_url" >> "$GITHUB_OUTPUT"
+
       - run: npm ci
 
       - name: Build
         run: npm run build
         env:
-          # https://<user>.github.io/<repo>/ → base_path = /<repo>  (사용자 사이트·커스텀 도메인이면 빈 값)
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
-          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          BASE_PATH: ${{ steps.base.outputs.path }}
+          VITE_SITE_URL: ${{ steps.base.outputs.site_url }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_MAP_PROVIDER: ${{ vars.VITE_MAP_PROVIDER }}
