@@ -1,0 +1,22 @@
+.host {
+  position: fixed;
+  left: 50%;
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  width: min(calc(100% - 48px), 360px);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  background: rgba(35, 30, 26, 0.88);
+  color: #fff;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}

@@ -1,0 +1,17 @@
+.text {
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: 2;
+}
+
+.action {
+  margin-top: var(--space-6);
+  display: flex;
+  justify-content: center;
+}
+
+.closed {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}

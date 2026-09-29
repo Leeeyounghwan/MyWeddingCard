@@ -1,0 +1,101 @@
+.route {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.point {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-paper);
+  color: var(--color-primary);
+}
+
+.icon[data-state='locating'] {
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.icon[data-state='fallback'] {
+  color: var(--color-text-soft);
+}
+
+.icon[data-state='dest'] {
+  background: var(--color-accent-strong);
+  color: var(--color-paper);
+}
+
+.connector {
+  display: block;
+  width: 1px;
+  height: 18px;
+  margin: 4px 0 4px 17.5px;
+  border-left: 1px dashed var(--color-text-soft);
+}
+
+.label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.value {
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.notice {
+  margin-top: var(--space-4);
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.apps {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  transition: background var(--dur-fast);
+}
+
+.app:hover {
+  background: var(--color-surface);
+}
+
+.view {
+  display: block;
+  margin-top: var(--space-5);
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: var(--space-2);
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.4;
+  }
+}

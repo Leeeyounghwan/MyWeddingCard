@@ -1,0 +1,114 @@
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.month {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: var(--fs-2xl);
+  line-height: 1;
+}
+
+.year {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.3em;
+  color: var(--color-text-muted);
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.calendar th {
+  padding: var(--space-4) 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+}
+
+.calendar tbody tr:last-child td {
+  padding-bottom: var(--space-4);
+}
+
+.calendar td {
+  padding: 3px 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--color-text);
+}
+
+.calendar [data-sunday] {
+  color: var(--color-accent-strong);
+}
+
+.cell {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+}
+
+.num {
+  position: relative;
+}
+
+.calendar td[data-wedding] {
+  color: var(--color-paper);
+  font-weight: 600;
+}
+
+.calendar td[data-wedding] .cell::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--color-accent-strong);
+  opacity: 0.92;
+}
+
+.circle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.circle circle {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1;
+}
+
+.info {
+  margin-top: var(--space-7);
+  text-align: center;
+}
+
+.date {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  letter-spacing: 0.04em;
+}
+
+.venue {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}

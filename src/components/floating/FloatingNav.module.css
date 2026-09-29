@@ -1,0 +1,27 @@
+.nav {
+  position: fixed;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  right: max(14px, calc(50% - var(--content-max) / 2 + 14px));
+  z-index: var(--z-floating);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.8);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(35, 30, 26, 0.14);
+  color: var(--color-primary);
+  transition: transform var(--dur-fast);
+}
+
+.button:active {
+  transform: scale(0.94);
+}

@@ -1,0 +1,221 @@
+/* 시트 안 폼 공통 스타일 (RSVP · 방명록) */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  padding: 0;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--color-text-soft);
+  margin-left: 4px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  /* 16px 이상이어야 iOS 가 입력 시 화면을 확대하지 않습니다 */
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 12px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--color-text);
+  transition: border-color var(--dur-fast);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #b2a79c;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.counter {
+  align-self: flex-end;
+  font-size: 11px;
+  color: var(--color-text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* 세그먼트 선택 (라디오) */
+.segment {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #fff;
+}
+
+.segment label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast),
+    color var(--dur-fast);
+}
+
+.segment label + label {
+  border-left: 1px solid var(--color-line);
+}
+
+.segment input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segment label:has(input:checked) {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-weight: 500;
+}
+
+.segment label:has(input:focus-visible) {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: -4px;
+}
+
+/* :has 미지원 브라우저 대비 */
+.segment [data-checked='true'] {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-weight: 500;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  height: 48px;
+}
+
+.stepper button {
+  width: 48px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  color: var(--color-text);
+}
+
+.stepper button:disabled {
+  color: var(--color-line);
+}
+
+.stepper output {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.check input {
+  margin: 2px 0 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.help {
+  font-size: 11px;
+  color: var(--color-text-soft);
+  line-height: 1.6;
+}
+
+.error {
+  font-size: var(--fs-xs);
+  color: var(--color-danger);
+  line-height: 1.5;
+}
+
+/* 봇 방지용 숨김 필드 (사람에게는 보이지 않음) */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.done {
+  text-align: center;
+  padding: var(--space-6) 0 var(--space-4);
+}
+
+.doneTitle {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-2);
+}
+
+.doneText {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  white-space: pre-line;
+  margin-bottom: var(--space-6);
+}
+
+.notice {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}

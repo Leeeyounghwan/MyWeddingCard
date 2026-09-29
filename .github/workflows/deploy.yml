@@ -1,0 +1,67 @@
+# GitHub Pages 자동 배포
+# main 브랜치에 push 하면 빌드 후 GitHub Pages 에 배포됩니다.
+#
+# 사전 설정 (저장소 Settings)
+#  1) Pages → Build and deployment → Source: "GitHub Actions"
+#  2) Secrets and variables → Actions → Variables(또는 Secrets) 에 아래 값 등록
+#     VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_MAP_PROVIDER, VITE_KAKAO_MAP_KEY, VITE_NAVER_MAP_CLIENT_ID
+#     (모두 브라우저에 공개되는 값입니다. service_role 키는 절대 넣지 마세요)
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # https://<user>.github.io/<repo>/ → base_path = /<repo>  (사용자 사이트·커스텀 도메인이면 빈 값)
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_MAP_PROVIDER: ${{ vars.VITE_MAP_PROVIDER }}
+          VITE_KAKAO_MAP_KEY: ${{ vars.VITE_KAKAO_MAP_KEY || secrets.VITE_KAKAO_MAP_KEY }}
+          VITE_NAVER_MAP_CLIENT_ID: ${{ vars.VITE_NAVER_MAP_CLIENT_ID || secrets.VITE_NAVER_MAP_CLIENT_ID }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

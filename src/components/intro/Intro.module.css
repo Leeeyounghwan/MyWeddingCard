@@ -1,0 +1,94 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #fdfbf7 0%, transparent 60%),
+    radial-gradient(90% 60% at 50% 110%, #e6f0dd 0%, transparent 70%),
+    #f7f9f3;
+  color: var(--color-text);
+  overflow: hidden;
+  outline: none;
+}
+
+/* 종이 질감 (가벼운 SVG 노이즈) */
+.grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.18;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .3 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  max-width: var(--content-max);
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.42em;
+  margin-right: -0.42em; /* letter-spacing 으로 인한 중앙 정렬 보정 */
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-7);
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.05;
+}
+
+.name {
+  display: block;
+  font-size: clamp(2.5rem, 12vw, 3.25rem);
+  letter-spacing: 0.01em;
+}
+
+.amp {
+  display: block;
+  font-style: italic;
+  font-size: clamp(1.75rem, 8vw, 2.25rem);
+  color: var(--color-accent-strong);
+  margin: 6px 0 4px;
+}
+
+.korean {
+  margin-top: var(--space-5);
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.3em;
+  color: var(--color-text-muted);
+}
+
+.line {
+  display: block;
+  width: 48px;
+  height: 1px;
+  margin: var(--space-6) 0 var(--space-4);
+  background: var(--color-text-soft);
+  transform-origin: center;
+}
+
+.date {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  letter-spacing: 0.24em;
+  margin-right: -0.24em;
+  margin-bottom: var(--space-9);
+}
+

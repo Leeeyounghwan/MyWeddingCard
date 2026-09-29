@@ -1,0 +1,57 @@
+.preview {
+  width: min(100%, 260px);
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
+  box-shadow: var(--shadow-md);
+  background: var(--color-surface);
+}
+
+.result {
+  width: 100%;
+  height: 100%;
+  -webkit-touch-callout: default; /* iOS 길게 눌러 저장 허용 */
+}
+
+.placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+.loading {
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+.hint {
+  margin-top: var(--space-4);
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.buttons {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.offscreen {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  pointer-events: none;
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.45;
+  }
+}

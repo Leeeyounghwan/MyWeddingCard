@@ -1,0 +1,97 @@
+/**
+ * 🎨 디자인 토큰 — 색상 · 서체 · 간격 · 모션을 한 곳에서 관리합니다.
+ * 테마를 바꾸려면 이 파일의 값만 수정하면 전체에 반영됩니다.
+ */
+:root {
+  /* ── Color (Spring) ───────────────────────
+     4월 예식에 맞춰 가을 톤(브라운)이 아닌 봄 느낌의 산뜻한 팔레트입니다.
+     연둣빛 세이지 그린 + 벚꽃 핑크 + 깨끗한 화이트를 기본으로 합니다. */
+  --color-background: #fbfaf6; /* Clean warm white — 페이지 바탕 */
+  --color-surface: #f2f6ee; /* Pale sage — 달력·카드 바탕 */
+  --color-surface-strong: #e6ede0;
+  --color-paper: #fffefb; /* Soft white — 폼/시트 바탕 */
+  --color-primary: #4f724f; /* Spring green — 버튼·강조 */
+  --color-primary-contrast: #ffffff;
+  --color-text: #2f332c; /* 본문 */
+  --color-text-muted: #6d7266; /* 보조 텍스트 (대비 5:1 이상) */
+  --color-text-soft: #a3a89a; /* 장식용 라벨 (본문에 쓰지 않음) */
+  --color-accent: #f4c9d6; /* Cherry blossom pink — 장식 */
+  --color-accent-strong: #a8456a; /* 벚꽃 핑크 진한 — 텍스트용 */
+  --color-line: #dfe8d6; /* 구분선 */
+  --color-ink: #1c231c; /* 인트로 · 히어로 배경 */
+  --color-outer: #eef2ea; /* 데스크톱에서 모바일 영역 바깥 */
+  --color-overlay: rgba(28, 35, 28, 0.46);
+  --color-danger: #b0463c;
+
+  /* ── Typography ────────────────────────── */
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif;
+  --font-serif: 'Gowun Batang', 'Nanum Myeongjo', 'AppleMyungjo', serif; /* 한글 제목·초대글 */
+  --font-display: 'Cormorant Garamond', 'Gowun Batang', 'Times New Roman', serif; /* 영문 레터링 */
+
+  --fs-xs: 0.75rem; /* 12 */
+  --fs-sm: 0.8125rem; /* 13 */
+  --fs-base: 0.9375rem; /* 15 */
+  --fs-md: 1.0625rem; /* 17 */
+  --fs-lg: 1.375rem; /* 22 */
+  --fs-xl: 2rem; /* 32 */
+  --fs-2xl: 2.75rem; /* 44 */
+  --fs-3xl: 3.5rem; /* 56 */
+
+  --lh-body: 1.85;
+  --lh-tight: 1.15;
+  --tracking-wide: 0.22em;
+  --tracking-wider: 0.34em;
+
+  /* ── Spacing (4px 기반) ─────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --gutter: 28px; /* 좌우 여백 */
+  --section-y: 112px; /* 섹션 상하 여백 */
+
+  /* ── Layout ───────────────────────────── */
+  --content-max: 440px;
+
+  /* ── Radius ───────────────────────────── */
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ── Shadow ───────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(58, 50, 44, 0.06), 0 2px 8px rgba(58, 50, 44, 0.05);
+  --shadow-md: 0 8px 28px rgba(58, 50, 44, 0.12);
+  --shadow-lg: 0 24px 60px rgba(35, 30, 26, 0.18);
+  --shadow-page: 0 0 80px rgba(58, 50, 44, 0.14);
+
+  /* ── Motion ───────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.2s;
+  --dur-base: 0.5s;
+  --dur-slow: 0.9s;
+
+  /* ── Layer ────────────────────────────── */
+  --z-floating: 40;
+  --z-sheet: 60;
+  --z-lightbox: 70;
+  --z-toast: 80;
+  --z-intro: 90;
+}
+
+@media (max-width: 360px) {
+  :root {
+    --gutter: 22px;
+    --section-y: 96px;
+    --fs-3xl: 3rem;
+  }
+}

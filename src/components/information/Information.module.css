@@ -1,0 +1,35 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.item {
+  padding: var(--space-6) var(--space-5);
+  background: var(--color-paper);
+  text-align: center;
+}
+
+.index {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  color: var(--color-accent-strong);
+  line-height: 1;
+}
+
+.title {
+  margin-top: var(--space-2);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  font-weight: 700;
+}
+
+.desc {
+  margin-top: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  white-space: pre-line;
+}

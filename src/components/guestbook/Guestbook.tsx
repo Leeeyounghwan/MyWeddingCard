@@ -1,0 +1,102 @@
+import { useInView } from 'framer-motion'
+import { PenLine } from 'lucide-react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { useDisclosure } from '../../hooks/useDisclosure'
+import { guestbookApi, guestbookAvailable, type GuestbookEntry } from '../../lib/guestbook'
+import { toUserMessage } from '../../lib/supabase'
+import { Button } from '../common/Button'
+import { Reveal } from '../common/Reveal'
+import { Section } from '../common/Section'
+import { EntryItem } from './EntryItem'
+import styles from './Guestbook.module.css'
+
+const WriteSheet = lazy(() => import('./WriteSheet'))
+const AllSheet = lazy(() => import('./AllSheet'))
+
+const PREVIEW = 4
+
+/**
+ * 방명록
+ * - 섹션이 화면 가까이 올 때 처음 불러옵니다(supabase-js 도 이때 로드).
+ * - 최근 글 몇 개만 보여주고, 전체는 시트에서 페이지 단위로 불러옵니다.
+ */
+export function Guestbook() {
+  const ref = useRef<HTMLDivElement>(null)
+  const near = useInView(ref, { once: true, margin: '400px 0px' })
+  const [entries, setEntries] = useState<GuestbookEntry[] | null>(null)
+  const [total, setTotal] = useState(0)
+  const [error, setError] = useState<string | null>(null)
+  const write = useDisclosure()
+  const all = useDisclosure()
+
+  const load = useCallback(async () => {
+    setError(null)
+    try {
+      const page = await guestbookApi.list(PREVIEW, 0)
+      setEntries(page.entries)
+      setTotal(page.total)
+    } catch (e) {
+      setError(toUserMessage(e))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (near && guestbookAvailable) void load()
+  }, [near, load])
+
+  if (!guestbookAvailable) return null
+
+  return (
+    <Section id="guestbook" eyebrow="Guestbook" title="축하의 한마디" tone="paper">
+      <div ref={ref} className={styles.preview} aria-busy={entries === null && !error}>
+        {error ? (
+          <div className={styles.state}>
+            <p>{error}</p>
+            <Button size="sm" variant="ghost" onClick={load}>
+              다시 불러오기
+            </Button>
+          </div>
+        ) : entries === null ? (
+          <ul className={styles.list} aria-label="불러오는 중">
+            {[0, 1].map((i) => (
+              <li key={i} className={styles.skeleton} />
+            ))}
+          </ul>
+        ) : entries.length === 0 ? (
+          <Reveal as="p" className={styles.state}>
+            아직 남겨진 메시지가 없어요.
+            <br />첫 번째 축하 메시지를 남겨주세요.
+          </Reveal>
+        ) : (
+          <ul className={styles.list}>
+            {entries.map((e) => (
+              <EntryItem key={e.id} entry={e} onDeleted={load} />
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <Reveal className={styles.actions}>
+        <Button
+          variant="primary"
+          block
+          icon={<PenLine size={15} strokeWidth={1.5} aria-hidden="true" />}
+          onClick={write.show}
+          aria-haspopup="dialog"
+        >
+          축하 메시지 남기기
+        </Button>
+        {total > 0 && (
+          <Button variant="outline" block onClick={all.show} aria-haspopup="dialog">
+            방명록 전체보기 <span className={styles.total}>({total})</span>
+          </Button>
+        )}
+      </Reveal>
+
+      <Suspense fallback={null}>
+        {write.mounted && <WriteSheet open={write.open} onClose={write.hide} onCreated={load} />}
+        {all.mounted && <AllSheet open={all.open} onClose={all.hide} onChanged={load} />}
+      </Suspense>
+    </Section>
+  )
+}

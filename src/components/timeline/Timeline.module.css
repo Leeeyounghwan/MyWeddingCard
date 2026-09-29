@@ -1,0 +1,72 @@
+.list {
+  position: relative;
+  padding-left: 32px;
+}
+
+.track {
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: var(--color-line);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform-origin: top;
+}
+
+.item {
+  position: relative;
+}
+
+.item + .item {
+  margin-top: var(--space-8);
+}
+
+.dot {
+  position: absolute;
+  left: -32px;
+  top: 8px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--color-background);
+  border: 1px solid var(--color-accent-strong);
+}
+
+.item[data-last] .dot {
+  background: var(--color-accent-strong);
+  box-shadow: 0 0 0 4px rgba(201, 160, 154, 0.25);
+}
+
+.date {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+  color: var(--color-accent-strong);
+}
+
+.title {
+  margin-top: var(--space-1);
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.desc {
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+.image {
+  margin-top: var(--space-4);
+}
