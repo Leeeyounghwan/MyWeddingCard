@@ -11,7 +11,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const pad = (n: number) => String(n).padStart(2, '0')
 
 /** 시퀀스가 모두 재생된 뒤 자동으로 넘어가기까지의 시간(ms) */
-const AUTO_ADVANCE_MS = 4800
+const AUTO_ADVANCE_MS = 2800
 const AUTO_ADVANCE_MS_REDUCED = 900
 
 /**
@@ -69,19 +69,19 @@ export function Intro({ onDone }: { onDone: () => void }) {
           aria-modal="true"
           aria-label="청첩장 오프닝"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 1, ease: EASE, delay: 0.35 } }}
+          exit={{ opacity: 0, transition: { duration: 0.55, ease: EASE } }}
         >
           <div className={styles.grain} aria-hidden="true" />
 
           <m.div
             className={styles.content}
-            exit={{ opacity: 0, y: -24, filter: 'blur(4px)', transition: { duration: 0.6, ease: EASE } }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(4px)', transition: { duration: 0.4, ease: EASE } }}
           >
             <m.p
               className={styles.label}
               initial={{ opacity: 0, letterSpacing: '0.6em' }}
               animate={{ opacity: 1, letterSpacing: '0.42em' }}
-              transition={{ duration: 1.4, ease: EASE, delay: 0.4 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
             >
               Wedding Invitation
             </m.p>
@@ -91,7 +91,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
                 className={styles.name}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.1, ease: EASE, delay: 0.9 }}
+                transition={{ duration: 0.75, ease: EASE, delay: 0.65 }}
               >
                 {groom.nameEn}
               </m.span>
@@ -99,7 +99,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
                 className={styles.amp}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.1, ease: EASE, delay: 1.25 }}
+                transition={{ duration: 0.75, ease: EASE, delay: 0.9 }}
                 aria-hidden="true"
               >
                 &amp;
@@ -109,7 +109,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
                 className={styles.name}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.1, ease: EASE, delay: 1.55 }}
+                transition={{ duration: 0.75, ease: EASE, delay: 1.15 }}
               >
                 {bride.nameEn}
               </m.span>
@@ -119,7 +119,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
               className={styles.korean}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 2.05 }}
+              transition={{ duration: 0.7, delay: 1.55 }}
             >
               {groom.name} <span aria-hidden="true">·</span> {bride.name}
             </m.p>
@@ -128,7 +128,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
               className={styles.line}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 1, ease: EASE, delay: 2.3 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 1.75 }}
               aria-hidden="true"
             />
 
@@ -136,7 +136,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
               className={styles.date}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: EASE, delay: 2.55 }}
+              transition={{ duration: 0.65, ease: EASE, delay: 1.95 }}
             >
               {wd.year}. {pad(wd.month)}. {pad(wd.day)}
             </m.p>

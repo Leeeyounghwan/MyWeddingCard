@@ -132,7 +132,14 @@ cp .env.example .env
    - RSVP: Table Editor → `rsvp`
    - 집계: SQL Editor 에서 `select * from private.rsvp_summary;`
    - 금칙어 추가: `insert into private.blocked_words(word) values ('단어');`
-5. 예식이 끝나고 한 달 안에 RSVP 연락처를 삭제하세요. RSVP 동의 문구에 이 보유 기간을 약속했습니다.
+5. 관리자 URL 로 RSVP 를 확인하려면 SQL Editor 에서 관리자 키를 1회 설정합니다.
+   ```sql
+   insert into private.settings (key, value)
+   values ('admin_key_hash', extensions.crypt('yhej270425', extensions.gen_salt('bf', 10)))
+   on conflict (key) do update set value = excluded.value;
+   ```
+   접속 주소는 `https://배포주소/?admin=yhej270425` 입니다.
+6. 예식이 끝나고 한 달 안에 RSVP 연락처를 삭제하세요. RSVP 동의 문구에 이 보유 기간을 약속했습니다.
    ```sql
    update public.rsvp set phone = null;
    ```
@@ -149,7 +156,8 @@ cp .env.example .env
 | `get_guestbook(limit, offset)` | 보이는 글만 반환하고 해시 컬럼은 반환하지 않습니다. 최대 50개입니다. |
 | `add_guestbook(name, message, password)` | 길이 검증, 링크 차단, 금칙어, 10분 내 중복을 검사합니다. IP 당 10분 3회, 전체 1시간 60회로 제한하고 비밀번호는 bcrypt 로 저장합니다. |
 | `delete_guestbook(id, password)` | 비밀번호가 맞으면 숨김 처리(soft delete)합니다. 시도는 IP 당 10분 10회로 제한합니다. |
-| `submit_rsvp(...)` | 입력을 검증하고 IP 당 10분 5회로 제한합니다. **조회 함수는 없습니다.** |
+| `submit_rsvp(...)` | 입력을 검증하고 IP 당 10분 5회로 제한합니다. |
+| `get_rsvp_admin(key)` | 관리자 키가 맞을 때 RSVP 관리 화면에 필요한 목록을 반환합니다. |
 
 두 테이블 모두 RLS 가 켜져 있고 정책은 없습니다. anon 과 authenticated 의 테이블 권한도 모두 회수했으므로, 브라우저에서 테이블에 직접 접근할 수 없습니다.
 

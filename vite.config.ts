@@ -18,7 +18,7 @@ function htmlMeta(siteUrl: string, base: string): Plugin {
       }
       return html
         .replaceAll('__OG_TITLE__', escape(meta.title))
-        .replaceAll('__OG_DESCRIPTION__', escape(meta.description.replace(/\n/g, ' · ')))
+        .replaceAll('__OG_DESCRIPTION__', escape(meta.description))
         .replaceAll('__OG_IMAGE__', escape(siteUrl ? abs(meta.ogImage) : `${base}${meta.ogImage}`))
         .replaceAll('__SITE_URL__', escape(siteUrl ? `${siteUrl}/` : base))
         .replaceAll('__HERO_IMAGE__', escape(`${base}${media.heroImage.replace(/^\//, '')}`))

@@ -20,7 +20,7 @@ export const groom: Person = {
   firstName: '영환',
   nameEn: 'Young Hwan',
   relation: '아들', // ✏️ 예: '장남', '차남'
-  phone: '', // ✏️ 예: '010-0000-0000'
+  phone: '010-3260-3531', // ✏️ 예: '010-0000-0000'
   photo: 'images/couple/groom.svg', // ✏️ public/images/couple/ 에 사진을 넣고 경로 변경
   intro: '', // ✏️ 한 줄 소개 (선택)
   profile: [
@@ -37,7 +37,7 @@ export const bride: Person = {
   firstName: '은진',
   nameEn: 'Eun Jin',
   relation: '딸', // ✏️ 예: '장녀', '차녀'
-  phone: '',
+  phone: '010-2529-7816',
   photo: 'images/couple/bride.svg',
   intro: '',
   profile: [],
@@ -59,7 +59,7 @@ export const venue: Venue = {
   hall: '7층 웨스턴홀',
   address: '인천 부평구 부평대로278번길 16',
   addressDetail: '갈산역 2번 출구 앞',
-  tel: '', // ✏️ 예식장 대표번호 (선택)
+  tel: '032-524-5000', // ✏️ 예식장 대표번호 (선택)
   cityEn: 'Incheon',
   // ⚠️ 대략적인 좌표입니다. 카카오맵에서 예식장을 검색 → 우클릭 '좌표' 로 정확한 값을 확인해 교체하세요.
   //    (카카오 지도 키가 설정되어 있으면 지도는 주소로 자동 보정됩니다.)
@@ -102,8 +102,8 @@ export const media = {
 
 /** 카카오톡 · SNS 공유 미리보기 (빌드 시 index.html 메타태그로 들어갑니다) */
 export const meta = {
-  title: '이영환 ♥ 오은진 결혼합니다',
-  description: '2027년 4월 25일 일요일\n웨스턴팰리스웨딩',
+  title: '영환🤍은진 결혼식 💍',
+  description: '2027.04.25(일) 12:00\n웨스턴팰리스 웨딩, 7F 웨스턴홀',
   /** 1200×630 JPG/PNG 권장. 카카오톡은 SVG/WebP 를 지원하지 않으니 JPG 나 PNG 를 사용하세요. */
   ogImage: 'og-image.png', // ✏️ public/og-image.png 교체
   themeColor: '#F8F4EE',

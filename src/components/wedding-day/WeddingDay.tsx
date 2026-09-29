@@ -7,7 +7,7 @@ import { Reveal } from '../common/Reveal'
 import { Section } from '../common/Section'
 import styles from './WeddingDay.module.css'
 
-/** 직접 디자인한 예식 월 달력. 예식일은 원이 그려지며 강조됩니다. */
+/** 직접 디자인한 예식 월 달력. 예식일은 하트가 그려지며 강조됩니다. */
 export function WeddingDay({ children }: { children?: ReactNode }) {
   const reduce = useReducedMotion()
   const cells = monthMatrix(wd.year, wd.month)
@@ -45,11 +45,9 @@ export function WeddingDay({ children }: { children?: ReactNode }) {
                       {day && (
                         <span className={styles.cell}>
                           {isDay && (
-                            <svg className={styles.circle} viewBox="0 0 40 40" aria-hidden="true">
-                              <m.circle
-                                cx="20"
-                                cy="20"
-                                r="18"
+                            <svg className={styles.heart} viewBox="0 0 40 40" aria-hidden="true">
+                              <m.path
+                                d="M20 34s-13-7.7-13-18A7.2 7.2 0 0 1 20 11.8 7.2 7.2 0 0 1 33 16c0 10.3-13 18-13 18Z"
                                 initial={reduce ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                                 whileInView={{ pathLength: 1, opacity: 1 }}
                                 viewport={viewportOnce}

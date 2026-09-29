@@ -42,6 +42,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   WRONG_PASSWORD: '비밀번호가 일치하지 않아요.',
   NOT_FOUND: '이미 삭제되었거나 존재하지 않는 글이에요.',
   NOT_CONFIGURED: '아직 준비 중인 기능이에요.',
+  ADMIN_NOT_CONFIGURED: '관리자 키가 아직 설정되지 않았어요.',
+  ADMIN_DENIED: '관리자 키가 올바르지 않아요.',
 }
 
 /** 서버(RPC)에서 raise 한 코드 → 사용자 메시지 */

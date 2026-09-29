@@ -1,4 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
+import { AdminRsvp } from './components/admin/AdminRsvp'
 import { ToastHost } from './components/common/ToastHost'
 import { FloatingNav } from './components/floating/FloatingNav'
 import { Hero } from './components/hero/Hero'
@@ -13,6 +14,7 @@ const loadBelowFold = () => import('./BelowFold')
 const BelowFold = lazy(loadBelowFold)
 
 const INTRO_KEY = 'intro-seen'
+const adminKey = new URLSearchParams(window.location.search).get('admin')
 
 /**
  * 인트로 표시 여부
@@ -29,6 +31,15 @@ function shouldShowIntro(): boolean {
 }
 
 export default function App() {
+  if (adminKey !== null) {
+    return (
+      <>
+        <AdminRsvp adminKey={adminKey} />
+        <ToastHost />
+      </>
+    )
+  }
+
   const [showIntro] = useState(shouldShowIntro)
   const [ready, setReady] = useState(!showIntro)
 

@@ -1,5 +1,26 @@
 import { meta } from '../data/wedding'
+import { loadScript } from './loadScript'
 import { toast } from './toast'
+
+const KAKAO_SHARE_KEY = (import.meta.env.VITE_KAKAO_SHARE_KEY ?? import.meta.env.VITE_KAKAO_MAP_KEY) as
+  | string
+  | undefined
+
+declare global {
+  interface Window {
+    Kakao?: {
+      isInitialized(): boolean
+      init(key: string): void
+      Share: {
+        sendDefault(options: {
+          objectType: 'feed'
+          content: { title: string; description: string; imageUrl: string; link: { mobileWebUrl: string; webUrl: string } }
+          buttons: { title: string; link: { mobileWebUrl: string; webUrl: string } }[]
+        }): void
+      }
+    }
+  }
+}
 
 /** 클립보드 복사 (구형 브라우저 · 인앱 브라우저 대비 fallback 포함) */
 export async function copyText(text: string, successMessage = '복사되었습니다'): Promise<boolean> {
@@ -38,8 +59,29 @@ export function pageUrl(): string {
   return `${location.origin}${location.pathname}`
 }
 
+async function shareKakao(): Promise<boolean> {
+  if (!KAKAO_SHARE_KEY) return false
+  try {
+    await loadScript('https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js')
+    const kakao = window.Kakao
+    if (!kakao) return false
+    if (!kakao.isInitialized()) kakao.init(KAKAO_SHARE_KEY)
+    const url = pageUrl()
+    const imageUrl = new URL(meta.ogImage, `${location.origin}${import.meta.env.BASE_URL}`).href
+    kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: { title: meta.title, description: meta.description, imageUrl, link: { mobileWebUrl: url, webUrl: url } },
+      buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: url, webUrl: url } }],
+    })
+    return true
+  } catch {
+    return false
+  }
+}
+
 /** Web Share API → 미지원 시 URL 복사 */
 export async function shareInvitation(): Promise<void> {
+  if (await shareKakao()) return
   const data: ShareData = {
     title: meta.title,
     text: `${meta.title}\n${meta.description}`,

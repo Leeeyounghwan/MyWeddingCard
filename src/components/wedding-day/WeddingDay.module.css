@@ -73,24 +73,27 @@
 }
 
 .calendar td[data-wedding] .cell::before {
-  content: '';
+  content: '♥';
   position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  background: var(--color-accent-strong);
+  top: 50%;
+  left: 50%;
+  color: var(--color-accent-strong);
+  font-family: var(--font-serif);
+  font-size: 2.35rem;
+  line-height: 1;
   opacity: 0.92;
+  transform: translate(-50%, -50%);
 }
 
-.circle {
+.heart {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  transform: rotate(-90deg);
   overflow: visible;
 }
 
-.circle circle {
+.heart path {
   fill: none;
   stroke: var(--color-accent);
   stroke-width: 1;

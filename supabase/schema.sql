@@ -9,7 +9,7 @@
 --   · 모든 접근은 아래 RPC 함수(security definer)로만 가능하며, 함수가 입력 검증 · 속도 제한을 수행합니다.
 --   · 방명록 비밀번호는 bcrypt(pgcrypto crypt) 해시로만 저장되고, 조회 함수는 해시 컬럼을 절대 반환하지 않습니다.
 --   · IP 는 원문 저장 없이 salt 를 섞은 SHA-256 해시로만 속도 제한에 사용합니다.
---   · RSVP 는 조회 함수가 없습니다. (신랑·신부만 Dashboard 에서 확인)
+--   · RSVP 관리는 관리자 키가 있는 RPC 로만 조회합니다.
 -- ============================================================================
 
 create extension if not exists pgcrypto with schema extensions;
@@ -328,16 +328,58 @@ begin
 end;
 $$;
 
+-- RSVP 관리자 조회
+-- 관리자 키 설정(SQL Editor 에서 1회 실행):
+-- insert into private.settings (key, value)
+-- values ('admin_key_hash', extensions.crypt('yhej270425', extensions.gen_salt('bf', 10)))
+-- on conflict (key) do update set value = excluded.value;
+create or replace function public.get_rsvp_admin(p_key text)
+returns table (
+  id uuid,
+  side text,
+  name text,
+  attending boolean,
+  party_size smallint,
+  meal text,
+  phone text,
+  memo text,
+  created_at timestamptz
+)
+language plpgsql
+stable
+security definer
+set search_path = ''
+as $$
+declare
+  v_hash text;
+begin
+  select value into v_hash from private.settings where key = 'admin_key_hash';
+  if v_hash is null then
+    raise exception 'ADMIN_NOT_CONFIGURED' using errcode = 'P0001';
+  end if;
+  if p_key is null or extensions.crypt(p_key, v_hash) <> v_hash then
+    raise exception 'ADMIN_DENIED' using errcode = 'P0001';
+  end if;
+
+  return query
+  select r.id, r.side, r.name, r.attending, r.party_size, r.meal, r.phone, r.memo, r.created_at
+  from public.rsvp r
+  order by r.created_at desc;
+end;
+$$;
+
 -- 공개 함수 실행 권한: 기본(PUBLIC) 권한을 회수하고 필요한 것만 anon 에 부여
 revoke all on function public.get_guestbook(int, int) from public;
 revoke all on function public.add_guestbook(text, text, text) from public;
 revoke all on function public.delete_guestbook(uuid, text) from public;
 revoke all on function public.submit_rsvp(text, text, boolean, int, text, text, text) from public;
+revoke all on function public.get_rsvp_admin(text) from public;
 
 grant execute on function public.get_guestbook(int, int) to anon, authenticated;
 grant execute on function public.add_guestbook(text, text, text) to anon, authenticated;
 grant execute on function public.delete_guestbook(uuid, text) to anon, authenticated;
 grant execute on function public.submit_rsvp(text, text, boolean, int, text, text, text) to anon, authenticated;
+grant execute on function public.get_rsvp_admin(text) to anon, authenticated;
 
 -- ────────────────────────────────────────────────────────────────────────────
 -- 5. 관리용 뷰 (Dashboard · SQL Editor 에서만 사용. API 에서는 접근 불가)
