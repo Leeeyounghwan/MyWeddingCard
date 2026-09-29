@@ -4,7 +4,7 @@
 
 **직접 만든 모바일 청첩장 — 이영환 ♥ 오은진**
 
-2027. 04. 25 SUN · 웨스턴팰리스웨딩
+2027. 04. 25 SUN 12:00 · 웨스턴팰리스웨딩 7층 웨스턴홀
 
 ![React](https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)

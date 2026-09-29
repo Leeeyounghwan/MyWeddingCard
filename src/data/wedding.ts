@@ -47,16 +47,16 @@ export const bride: Person = {
 
 export const ceremony: Ceremony = {
   // ✏️ 예식 시간이 정해지면 'T00:00' 부분을 변경하고 timeConfirmed 를 true 로 바꾸세요.
-  //    예) 오후 12시 30분 → '2027-04-25T12:30:00+09:00'
-  dateTime: '2027-04-25T00:00:00+09:00',
-  timeConfirmed: false,
+  //    예) 12:30 → '2027-04-25T12:30:00+09:00'
+  dateTime: '2027-04-25T12:00:00+09:00',
+  timeConfirmed: true,
   durationMinutes: 90,
 }
 
 export const venue: Venue = {
   name: '웨스턴팰리스웨딩',
   nameEn: 'Western Palace Wedding',
-  hall: '', // ✏️ 예: '3F 그랜드홀'
+  hall: '7층 웨스턴홀',
   address: '인천 부평구 부평대로278번길 16',
   addressDetail: '갈산역 2번 출구 앞',
   tel: '', // ✏️ 예식장 대표번호 (선택)

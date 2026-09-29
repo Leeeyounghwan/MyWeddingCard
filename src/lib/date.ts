@@ -63,13 +63,8 @@ export const WEEKDAY_LABELS = WEEKDAYS_EN
 /** 2027.04.25 */
 export const dotDate = `${wd.year}.${pad(wd.month)}.${pad(wd.day)}`
 
-/** 오후 12시 30분 (시간 미정이면 '') */
-export const timeKo = (() => {
-  if (!ceremony.timeConfirmed) return ''
-  const ampm = wd.hour < 12 ? '오전' : '오후'
-  const h = wd.hour % 12 === 0 ? 12 : wd.hour % 12
-  return `${ampm} ${h}시${wd.minute ? ` ${wd.minute}분` : ''}`
-})()
+/** 12:30 (시간 미정이면 '') */
+export const timeKo = ceremony.timeConfirmed ? `${pad(wd.hour)}:${pad(wd.minute)}` : ''
 
 /** PM 12:30 (시간 미정이면 '') */
 export const timeEn = (() => {
@@ -79,7 +74,7 @@ export const timeEn = (() => {
   return `${ampm} ${h}:${pad(wd.minute)}`
 })()
 
-/** 2027년 4월 25일 일요일 [오후 12시 30분] */
+/** 2027년 4월 25일 일요일 [12:30] */
 export const fullDateKo = `${wd.year}년 ${wd.month}월 ${wd.day}일 ${weekdayKo}요일${timeKo ? ` ${timeKo}` : ''}`
 
 export const weddingStart = weddingDate.getTime()
