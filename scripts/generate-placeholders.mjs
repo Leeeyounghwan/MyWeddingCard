@@ -69,11 +69,6 @@ write('images/ending.svg', photoSvg({ w: 1200, h: 1600, seed: 4, label: 'public/
 write('images/couple/groom.svg', photoSvg({ w: 900, h: 1200, seed: 1, label: 'images/couple/groom.webp' }))
 write('images/couple/bride.svg', photoSvg({ w: 900, h: 1200, seed: 3, label: 'images/couple/bride.webp' }))
 
-// 스토리
-for (let i = 1; i <= 3; i++) {
-  write(`images/story/0${i}.svg`, photoSvg({ w: 1200, h: 900, seed: i + 5, label: `images/story/0${i}.webp` }))
-}
-
 // 갤러리 (data/gallery.ts 의 비율과 동일)
 const sizes = [
   [1600, 1200], [1200, 1600], [1200, 1500], [1200, 1600], [1600, 1200], [1200, 1800],

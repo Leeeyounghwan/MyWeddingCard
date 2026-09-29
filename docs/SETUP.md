@@ -17,7 +17,7 @@ React + TypeScript + Vite 로 만든 모바일 청첩장입니다. GitHub Pages 
 ├─ supabase/schema.sql            DB 스키마 · RLS · RPC 함수 (SQL Editor 에서 실행)
 ├─ scripts/generate-placeholders.mjs  임시 이미지 생성기
 ├─ public/                        정적 파일 (URL 경로 그대로 서빙)
-│  ├─ images/                     hero · ending · couple/ · gallery/ · story/
+│  ├─ images/                     hero · ending · couple/ · gallery/
 │  ├─ audio/bgm.mp3               배경음악 (직접 추가)
 │  ├─ og-image.png                카카오톡 공유 미리보기 이미지 (1200×630)
 │  ├─ favicon.svg · apple-touch-icon.png
@@ -27,13 +27,12 @@ React + TypeScript + Vite 로 만든 모바일 청첩장입니다. GitHub Pages 
    ├─ data/            ✏️ 콘텐츠 설정 (여기만 고치면 됨)
    │  ├─ wedding.ts        신랑·신부·혼주·예식 일시·예식장·초대글·공유문구·기능 on/off
    │  ├─ gallery.ts        갤러리 사진 목록
-   │  ├─ timeline.ts       Our Story
    │  ├─ transportation.ts 교통 안내
    │  ├─ information.ts    식사·화환 등 안내
    │  ├─ accounts.ts       계좌번호
    │  └─ types.ts          데이터 타입
    ├─ components/
-   │  ├─ intro/ hero/ invitation/ couple/ wedding-day/ countdown/ timeline/
+   │  ├─ intro/ hero/ invitation/ couple/ wedding-day/ countdown/
    │  ├─ gallery/ (Gallery, Carousel)  location/ (Location, DirectionsSheet, map/)
    │  ├─ information/ rsvp/ guestbook/ account/ contact/ ending/
    │  ├─ share/ (InvitationCard, CardSheet)  music/  floating/
@@ -76,7 +75,6 @@ Swiper, date-fns, react-intersection-observer 는 **쓰지 않았습니다.** �
 | `Invitation` | 초대 문구가 문단별로 순차 등장하고, 혼주 표기와 `연락하기` 시트가 이어집니다. |
 | `Couple` | 좌우로 엇갈린 매거진형 소개입니다. 사진은 마스크 리빌로 나타나고, 프로필 항목을 확장할 수 있습니다. |
 | `WeddingDay` + `Countdown` | 직접 디자인한 달력(예식일에 원이 그려지는 애니메이션)과 카운트다운입니다. 예식 시작 후와 종료 후에는 문구가 바뀝니다. |
-| `Timeline` | 스크롤에 맞춰 세로선이 채워지고 이야기가 하나씩 등장합니다. 데이터가 없으면 섹션이 숨겨집니다. |
 | `Gallery` (`Carousel`) | 그리드가 아니라 웨딩화보 사진을 한 장씩 크게 보여주는 캐러셀입니다. 스와이프 · 좌우 화살표 버튼 · 키보드(←, →)로 넘길 수 있고 현재 장수(`n / 총`)를 표시합니다. |
 | `Location` | 지도(카카오/네이버 교체 가능, 키가 없으면 대체 카드) · 주소 복사 · 네이버/카카오/티맵 버튼 · 현재 위치 길찾기 · 교통 안내로 구성됩니다. |
 | `Information` | 식사 · 화환 등 안내 카드입니다. |
@@ -198,7 +196,6 @@ cp .env.example .env
 | 엔딩 | `public/images/ending.webp` | `wedding.ts → ending.photo` |
 | 신랑/신부 | `public/images/couple/groom.webp`, `bride.webp` (3:4) | `wedding.ts → groom.photo / bride.photo` |
 | 갤러리 | `public/images/gallery/01.webp …` | `gallery.ts` (src, width, height, alt) |
-| 스토리 | `public/images/story/01.webp …` (4:3) | `timeline.ts → image` |
 | 저장용 카드 | 비우면 hero 사용 | `wedding.ts → media.cardImage` |
 | 공유 미리보기 | `public/og-image.png` 또는 `.jpg` (1200×630) | `wedding.ts → meta.ogImage` |
 

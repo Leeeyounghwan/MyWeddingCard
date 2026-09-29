@@ -115,7 +115,6 @@ export const features = {
   /** true 이면 인트로는 브라우저 탭(세션)당 한 번만 보여줍니다. URL 뒤에 ?intro 를 붙이면 항상 다시 볼 수 있습니다. */
   introOncePerSession: true,
   countdown: true,
-  timeline: true,
   rsvp: true,
   guestbook: true,
   account: true,

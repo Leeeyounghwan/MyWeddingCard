@@ -1,6 +1,6 @@
 /**
  * 청첩장 데이터 타입 정의.
- * 실제 내용은 같은 폴더의 wedding.ts / gallery.ts / timeline.ts ... 에서 수정합니다.
+ * 실제 내용은 같은 폴더의 wedding.ts / gallery.ts ... 에서 수정합니다.
  * (이 파일은 구조만 정의하므로 보통 수정할 필요가 없습니다.)
  */
 
@@ -85,13 +85,6 @@ export interface GalleryImage {
   width: number
   height: number
   alt: string
-}
-
-export interface TimelineEvent {
-  date: string
-  title: string
-  description?: string
-  image?: AssetPath
 }
 
 export type TransportKind = 'subway' | 'bus' | 'car' | 'parking' | 'shuttle' | 'train'
