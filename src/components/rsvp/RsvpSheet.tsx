@@ -2,11 +2,21 @@ import { Minus, Plus } from 'lucide-react'
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { isLocalMock, toUserMessage } from '../../lib/supabase'
 import { rsvpSubmittedName, submitRsvp, type Meal, type Side } from '../../lib/rsvp'
+import { toast } from '../../lib/toast'
 import { hasBlockedWord, hasLink, LIMITS, normalize, PHONE_RE } from '../../lib/validation'
 import { Button } from '../common/Button'
 import { Segment } from '../common/Segment'
 import { Sheet } from '../common/Sheet'
 import f from '../common/Form.module.css'
+
+function formatPhoneInput(value: string, previous: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 11)
+  if (!digits) return ''
+  if (!'01'.startsWith(digits) && !digits.startsWith('01')) return previous
+  if (digits.length <= 3) return digits
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`
+}
 
 /**
  * RSVP 폼
@@ -28,6 +38,7 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
   const [done, setDone] = useState(false)
   const openedAt = useRef(Date.now())
   const ids = useId()
+  const previous = rsvpSubmittedName()
 
   // 다시 열 때마다 완료 화면 초기화
   useEffect(() => {
@@ -35,8 +46,8 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
     openedAt.current = Date.now()
     setDone(false)
     setError(null)
-  }, [open])
-  const previous = rsvpSubmittedName()
+    if (previous) toast(`${previous}님의 회신이 이미 전달되었어요.\n변경사항이 있으면 다시 보내주세요.`, 3600)
+  }, [open, previous])
   const attending = attend === 'yes'
 
   const submit = async (e: FormEvent) => {
@@ -77,11 +88,6 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
         </div>
       ) : (
         <form className={f.form} onSubmit={submit} noValidate>
-          {previous && (
-            <p className={f.notice}>
-              {previous}님의 회신이 이미 전달되었어요. 변경 사항이 있으면 다시 보내주세요.
-            </p>
-          )}
           {isLocalMock && <p className={f.notice}>개발 모드: Supabase 미설정으로 이 브라우저에만 저장됩니다.</p>}
 
           <Segment
@@ -171,7 +177,7 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
               id={`${ids}-phone`}
               className={f.input}
               value={phone}
-              onChange={(e) => setPhone(e.target.value.replace(/[^0-9-]/g, ''))}
+              onChange={(e) => setPhone((prev) => formatPhoneInput(e.target.value, prev))}
               inputMode="tel"
               autoComplete="tel"
               maxLength={13}

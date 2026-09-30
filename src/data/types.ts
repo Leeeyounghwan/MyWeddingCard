@@ -95,7 +95,3 @@ export interface TransportInfo {
   lines: string[]
 }
 
-export interface InfoItem {
-  title: string
-  description: string
-}

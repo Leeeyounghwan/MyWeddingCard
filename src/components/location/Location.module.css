@@ -1,3 +1,7 @@
+.section {
+  padding-top: var(--space-8);
+}
+
 .venue {
   text-align: center;
   margin-bottom: var(--space-6);

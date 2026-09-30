@@ -30,7 +30,7 @@ export function Location() {
   }, [])
 
   return (
-    <Section id="location" eyebrow="Location" title="오시는 길">
+    <Section id="location" eyebrow="Location" title="오시는 길" className={styles.section}>
       <Reveal className={styles.venue}>
         <h3 className={styles.name}>{venue.name}</h3>
         {venue.hall && <p className={styles.hall}>{venue.hall}</p>}

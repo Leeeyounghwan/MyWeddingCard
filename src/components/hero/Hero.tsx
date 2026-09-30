@@ -10,18 +10,18 @@ const pad = (n: number) => String(n).padStart(2, '0')
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.16, delayChildren: 0.5 } },
+  show: { transition: { staggerChildren: 0.18, delayChildren: 0.55 } },
 }
 const item: Variants = {
-  hidden: { opacity: 0, y: 22 },
-  show: { opacity: 1, y: 0, transition: { duration: 1, ease: EASE } },
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 1.15, ease: EASE } },
 }
 
 /**
  * 메인 히어로 — 사진 한 장으로 몰입감 있게.
- * ready(인트로 종료) 이후에 텍스트가 순서대로 떠오르고, 스크롤 시 사진이 은은하게 패럴랙스됩니다.
+ * 텍스트가 순서대로 떠오르고, 스크롤 시 사진이 은은하게 패럴랙스됩니다.
  */
-export function Hero({ ready }: { ready: boolean }) {
+export function Hero() {
   const ref = useRef<HTMLElement>(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
@@ -37,9 +37,9 @@ export function Hero({ ready }: { ready: boolean }) {
           fetchPriority="high"
           decoding="async"
           draggable={false}
-          initial={{ scale: 1.12 }}
-          animate={ready ? { scale: 1 } : { scale: 1.12 }}
-          transition={{ duration: 2.8, ease: EASE }}
+          initial={{ scale: 1.16, opacity: 0.92 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 3.2, ease: EASE }}
         />
       </m.div>
       <div className={styles.shade} aria-hidden="true" />
@@ -47,14 +47,14 @@ export function Hero({ ready }: { ready: boolean }) {
       <m.div className={styles.inner} style={{ opacity: textOpacity }}>
         <m.p
           className={styles.top}
-          initial={{ opacity: 0 }}
-          animate={ready ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 1.4, delay: 0.3 }}
+          initial={{ opacity: 0, y: -8, letterSpacing: '0.6em' }}
+          animate={{ opacity: 1, y: 0, letterSpacing: '0.42em' }}
+          transition={{ duration: 1.45, delay: 0.25, ease: EASE }}
         >
           Wedding Invitation
         </m.p>
 
-        <m.div className={styles.bottom} variants={container} initial="hidden" animate={ready ? 'show' : 'hidden'}>
+        <m.div className={styles.bottom} variants={container} initial="hidden" animate="show">
           <h1 className={styles.names}>
             <m.span variants={item} className={styles.name}>
               {groom.nameEn}
@@ -101,8 +101,8 @@ export function Hero({ ready }: { ready: boolean }) {
         className={styles.scroll}
         aria-label="아래로 스크롤"
         initial={{ opacity: 0 }}
-        animate={ready ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 1.8 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 2.1 }}
       >
         <span>Scroll</span>
         <span className={styles.scrollLine} aria-hidden="true" />

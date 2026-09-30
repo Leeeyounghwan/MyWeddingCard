@@ -18,7 +18,7 @@ export function Rsvp() {
   if (!rsvpAvailable) return null
 
   return (
-    <Section id="rsvp" eyebrow="R.S.V.P." title="참석 여부 전달">
+    <Section id="rsvp" eyebrow="R.S.V.P." title="참석 여부 전달" tone="surface" className={styles.section}>
       <Reveal as="p" className={styles.text}>
         축하의 마음으로 참석해 주시는 모든 분들을
         <br />

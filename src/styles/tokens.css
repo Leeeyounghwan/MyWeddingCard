@@ -85,7 +85,6 @@
   --z-sheet: 60;
   --z-lightbox: 70;
   --z-toast: 80;
-  --z-intro: 90;
 }
 
 @media (max-width: 360px) {

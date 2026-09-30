@@ -1,3 +1,7 @@
+.section {
+  border-top: 1px solid rgba(166, 145, 128, 0.14);
+}
+
 .text {
   text-align: center;
   font-size: var(--fs-sm);

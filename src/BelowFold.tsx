@@ -4,7 +4,6 @@ import { Couple } from './components/couple/Couple'
 import { Ending } from './components/ending/Ending'
 import { Gallery } from './components/gallery/Gallery'
 import { Guestbook } from './components/guestbook/Guestbook'
-import { Information } from './components/information/Information'
 import { Location } from './components/location/Location'
 import { Rsvp } from './components/rsvp/Rsvp'
 import { WeddingDay } from './components/wedding-day/WeddingDay'
@@ -17,11 +16,10 @@ import { features } from './data/wedding'
 export default function BelowFold() {
   return (
     <>
-      <Couple />
       <WeddingDay>{features.countdown && <Countdown />}</WeddingDay>
+      <Couple />
       <Gallery />
       <Location />
-      <Information />
       {features.rsvp && <Rsvp />}
       {features.guestbook && <Guestbook />}
       {features.account && <Account />}

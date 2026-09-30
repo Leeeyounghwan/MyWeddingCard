@@ -95,4 +95,9 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding: var(--space-5) var(--gutter) var(--space-6);
+  scrollbar-width: none;
+}
+
+.body::-webkit-scrollbar {
+  display: none;
 }
