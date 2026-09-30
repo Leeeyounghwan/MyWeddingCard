@@ -3,7 +3,7 @@ import { lazy, Suspense, useCallback, useState } from 'react'
 import { venue } from '../../data/wedding'
 import { transportation } from '../../data/transportation'
 import { useDisclosure } from '../../hooks/useDisclosure'
-import { openKakaoMap, openNaverMap, openTmap } from '../../lib/map'
+import { getCurrentPosition, openKakaoMap, openNaverMap, openTmap } from '../../lib/map'
 import { copyText } from '../../lib/share'
 import { Button } from '../common/Button'
 import { Reveal } from '../common/Reveal'
@@ -19,10 +19,20 @@ function MapAppIcon({ app }: { app: 'naver' | 'kakao' | 'tmap' }) {
   return <span className={styles.appIcon} data-app={app} aria-hidden="true" />
 }
 
+type MapApp = 'naver' | 'kakao' | 'tmap'
+
 export function Location() {
   const [mapFailed, setMapFailed] = useState(false)
   const onMapError = useCallback(() => setMapFailed(true), [])
   const directions = useDisclosure()
+  const openRoute = useCallback(async (app: MapApp) => {
+    const result = await getCurrentPosition()
+    const from = result.ok ? result.position : null
+
+    if (app === 'naver') openNaverMap(from)
+    else if (app === 'kakao') openKakaoMap(from)
+    else openTmap(from)
+  }, [])
 
   return (
     <Section id="location" eyebrow="Location" title="오시는 길">
@@ -61,15 +71,15 @@ export function Location() {
       </Reveal>
 
       <Reveal className={styles.apps} delay={0.15}>
-        <button type="button" className={styles.app} onClick={() => openNaverMap()}>
+        <button type="button" className={styles.app} onClick={() => void openRoute('naver')}>
           <MapAppIcon app="naver" />
           네이버지도
         </button>
-        <button type="button" className={styles.app} onClick={() => openKakaoMap()}>
+        <button type="button" className={styles.app} onClick={() => void openRoute('kakao')}>
           <MapAppIcon app="kakao" />
           카카오맵
         </button>
-        <button type="button" className={styles.app} onClick={() => openTmap()}>
+        <button type="button" className={styles.app} onClick={() => void openRoute('tmap')}>
           <MapAppIcon app="tmap" />
           티맵
         </button>

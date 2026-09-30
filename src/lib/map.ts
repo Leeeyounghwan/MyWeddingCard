@@ -51,7 +51,10 @@ export function kakaoMapViewUrl(): string {
   return `https://map.kakao.com/link/map/${enc(dest.name)},${dest.lat},${dest.lng}`
 }
 
-export function naverMapWebUrl(): string {
+export function naverMapWebUrl(from?: LatLng | null): string {
+  if (from) {
+    return `https://map.naver.com/p/directions/${from.lng},${from.lat},${enc('현재 위치')},/-/${dest.lng},${dest.lat},${enc(dest.name)},/-/transit`
+  }
   return `https://map.naver.com/p/search/${enc(venue.address)}`
 }
 
@@ -61,7 +64,7 @@ export function openKakaoMap(from?: LatLng | null) {
 
 export function openNaverMap(from?: LatLng | null) {
   if (!isMobile) {
-    window.open(naverMapWebUrl(), '_blank', 'noopener')
+    window.open(naverMapWebUrl(from), '_blank', 'noopener')
     return
   }
   const start = from ? `slat=${from.lat}&slng=${from.lng}&sname=${enc('현재 위치')}&` : ''
@@ -69,7 +72,7 @@ export function openNaverMap(from?: LatLng | null) {
   openApp(app, naverMapWebUrl())
 }
 
-export function openTmap() {
+export function openTmap(_from?: LatLng | null) {
   if (!isMobile) {
     toast('티맵은 모바일 앱에서 이용할 수 있어요.', 2600)
     return
