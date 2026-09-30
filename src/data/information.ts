@@ -8,10 +8,6 @@ import type { InfoItem } from './types'
 export const information: InfoItem[] = [
   {
     title: '식사 안내',
-    description: '✏️ 예식 후 연회장에서 식사가 준비되어 있습니다.\n(뷔페 위치 · 운영 시간 등을 입력해 주세요)',
-  },
-  {
-    title: '화환 안내',
-    description: '축하의 마음만 감사히 받겠습니다.\n화환은 정중히 사양합니다.',
+    description: '예식 후 5F 연회장에 식사가 준비되어 있습니다.',
   },
 ]
