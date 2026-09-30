@@ -8,6 +8,7 @@
   gap: var(--space-2);
   background: var(--color-surface);
   color: var(--color-text);
+  isolation: isolate;
 }
 
 .lines {
@@ -15,11 +16,42 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  color: var(--color-surface-strong);
 }
 
-.lines path {
-  stroke: #d3e2c8;
+.minorRoads {
+  stroke: #dfe9d8;
+  stroke-width: 1;
+}
+
+.mainRoads {
+  stroke: #cbdcbc;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.roadLabel,
+.station {
+  fill: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.station {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.exit {
+  fill: #4f7f53;
+}
+
+.exitText {
+  fill: #fff;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
 }
 
 .pin {
@@ -32,6 +64,7 @@
   background: var(--color-paper);
   color: var(--color-accent-strong);
   box-shadow: var(--shadow-md);
+  z-index: 1;
 }
 
 .label {
@@ -42,12 +75,11 @@
   font-family: var(--font-serif);
   font-size: var(--fs-base);
   line-height: 1.5;
+  z-index: 1;
 }
 
 .label small {
   font-family: var(--font-sans);
   font-size: var(--fs-xs);
   color: var(--color-text-muted);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }

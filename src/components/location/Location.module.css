@@ -93,23 +93,52 @@
   background: var(--color-surface);
 }
 
-.appDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-}
-
-.appDot[data-app='naver'] {
-  background: #03c75a;
-}
-
-.appDot[data-app='kakao'] {
-  background: #fee500;
+.appIcon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  border-radius: 5px;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
-.appDot[data-app='tmap'] {
-  background: linear-gradient(135deg, #ef3e5c, #3c6df0);
+.appIcon::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.appIcon[data-app='naver'] {
+  background: #03c75a;
+}
+
+.appIcon[data-app='naver']::before {
+  content: 'N';
+}
+
+.appIcon[data-app='kakao'] {
+  background: #fee500;
+}
+
+.appIcon[data-app='kakao']::before {
+  content: '';
+  inset: 4px 5px 5px;
+  border: 1.8px solid #3c1e1e;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+
+.appIcon[data-app='tmap'] {
+  background: linear-gradient(135deg, #ff4f7a 0%, #7b4dff 48%, #1d8cff 100%);
+}
+
+.appIcon[data-app='tmap']::before {
+  content: 'T';
 }
 
 .route {

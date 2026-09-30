@@ -21,7 +21,7 @@ export interface MapViewProps {
 export type MapProviderName = 'kakao' | 'naver'
 
 const env = import.meta.env
-export const KAKAO_KEY = (env.VITE_KAKAO_MAP_KEY as string | undefined) ?? ''
+export const KAKAO_KEY = ((env.VITE_KAKAO_MAP_KEY ?? env.VITE_KAKAO_SHARE_KEY) as string | undefined) ?? ''
 export const NAVER_KEY = (env.VITE_NAVER_MAP_CLIENT_ID as string | undefined) ?? ''
 
 const PROVIDERS: Record<MapProviderName, { key: string; component: LazyExoticComponent<ComponentType<MapViewProps>> }> =

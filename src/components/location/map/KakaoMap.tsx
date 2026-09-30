@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from 'react'
 import { loadScript } from '../../../lib/loadScript'
+import { dotDate, timeKo } from '../../../lib/date'
 import { setResolvedDestination } from '../../../lib/map'
+import { venue } from '../../../data/wedding'
 import { KAKAO_KEY, type MapViewProps } from './MapProvider'
 import styles from './MapCanvas.module.css'
 
@@ -29,10 +31,35 @@ export default function KakaoMap({ lat, lng, title, address, onError }: MapViewP
         kakao.maps.load(() => {
           if (cancelled || !ref.current) return
           const center = new kakao.maps.LatLng(lat, lng)
-          const map = new kakao.maps.Map(ref.current, { center, level: 4, draggable: false })
+          const mapCenter = new kakao.maps.LatLng(lat + 0.0006, lng)
+          const map = new kakao.maps.Map(ref.current, { center: mapCenter, level: 3, draggable: false })
           map.setZoomable(false) // 스크롤 중 지도에 갇히지 않도록 고정형으로 표시
-          const marker = new kakao.maps.Marker({ position: center, title })
-          marker.setMap(map)
+          const mapLabel = timeKo ? `${dotDate} ${timeKo}` : dotDate
+          const overlayEl = document.createElement('div')
+          overlayEl.className = styles.marker
+          overlayEl.setAttribute('aria-label', `${title} 위치: ${mapLabel}, ${venue.hall}`)
+          const label = document.createElement('span')
+          label.className = styles.markerLabel
+          const date = document.createElement('strong')
+          date.textContent = mapLabel
+          const hall = document.createElement('small')
+          hall.textContent = venue.hall
+          label.append(date, hall)
+          const dot = document.createElement('span')
+          dot.className = styles.markerDot
+          dot.setAttribute('aria-hidden', 'true')
+          const stem = document.createElement('span')
+          stem.className = styles.markerStem
+          stem.setAttribute('aria-hidden', 'true')
+          overlayEl.append(label, dot, stem)
+          const overlay = new kakao.maps.CustomOverlay({
+            position: center,
+            content: overlayEl,
+            xAnchor: 0.5,
+            yAnchor: 1,
+            zIndex: 10,
+          })
+          overlay.setMap(map)
 
           // 주소로 정확한 좌표 보정 (data 의 좌표가 대략값이어도 핀이 정확히 찍히도록)
           if (kakao.maps.services) {
@@ -41,14 +68,16 @@ export default function KakaoMap({ lat, lng, title, address, onError }: MapViewP
               if (cancelled || status !== kakao.maps.services.Status.OK || !result[0]) return
               const pos = { lat: Number(result[0].y), lng: Number(result[0].x) }
               const p = new kakao.maps.LatLng(pos.lat, pos.lng)
-              marker.setPosition(p)
-              map.setCenter(p)
+              const viewCenter = new kakao.maps.LatLng(pos.lat + 0.0006, pos.lng)
+              overlay.setPosition(p)
+              map.setCenter(viewCenter)
               setResolvedDestination(pos)
             })
           }
           const relayout = () => {
             map.relayout()
-            map.setCenter(marker.getPosition())
+            const pos = overlay.getPosition()
+            map.setCenter(new kakao.maps.LatLng(pos.getLat() + 0.0006, pos.getLng()))
           }
           window.addEventListener('resize', relayout)
           cleanup = () => window.removeEventListener('resize', relayout)

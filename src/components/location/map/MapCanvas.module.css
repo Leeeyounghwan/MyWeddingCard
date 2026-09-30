@@ -4,3 +4,70 @@
   width: 100%;
   height: 100%;
 }
+
+.marker {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  pointer-events: none;
+}
+
+.markerLabel {
+  min-width: max-content;
+  position: relative;
+  display: grid;
+  gap: 3px;
+  padding: 9px 12px 8px;
+  border: 1px solid rgba(65, 117, 204, 0.2);
+  border-radius: 13px;
+  background: #fffefb;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.1;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(65, 56, 48, 0.14);
+  backdrop-filter: blur(8px);
+  transform: translateY(-4px);
+}
+
+.markerLabel::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  background: #fffefb;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.markerLabel strong {
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.markerLabel small {
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.markerDot {
+  position: relative;
+  margin-top: 8px;
+  width: 17px;
+  height: 17px;
+  border: 4px solid #fff;
+  border-radius: 999px;
+  background: #4b86e8;
+  box-shadow: 0 5px 14px rgba(59, 112, 204, 0.34), 0 0 0 4px rgba(75, 134, 232, 0.16);
+}
+
+.markerStem {
+  width: 2px;
+  height: 16px;
+  border-radius: 999px;
+  background: #4b86e8;
+  box-shadow: 0 2px 6px rgba(59, 112, 204, 0.22);
+}

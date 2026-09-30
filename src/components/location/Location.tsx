@@ -1,6 +1,5 @@
-import { useInView } from 'framer-motion'
 import { Copy, LocateFixed, MapPin, Phone } from 'lucide-react'
-import { lazy, Suspense, useCallback, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useState } from 'react'
 import { venue } from '../../data/wedding'
 import { transportation } from '../../data/transportation'
 import { useDisclosure } from '../../hooks/useDisclosure'
@@ -16,10 +15,11 @@ import styles from './Location.module.css'
 
 const DirectionsSheet = lazy(() => import('./DirectionsSheet'))
 
+function MapAppIcon({ app }: { app: 'naver' | 'kakao' | 'tmap' }) {
+  return <span className={styles.appIcon} data-app={app} aria-hidden="true" />
+}
+
 export function Location() {
-  const mapRef = useRef<HTMLDivElement>(null)
-  // 지도 SDK 는 섹션이 화면 가까이 왔을 때만 로드 (초기 로딩에 영향 없음)
-  const nearView = useInView(mapRef, { once: true, margin: '600px 0px' })
   const [mapFailed, setMapFailed] = useState(false)
   const onMapError = useCallback(() => setMapFailed(true), [])
   const directions = useDisclosure()
@@ -49,19 +49,11 @@ export function Location() {
       </Reveal>
 
       <Reveal className={styles.mapFrame} delay={0.1}>
-        <div ref={mapRef} className={styles.map}>
+        <div className={styles.map}>
           {MapView && !mapFailed ? (
-            nearView && (
-              <Suspense fallback={null}>
-                <MapView
-                  lat={venue.lat}
-                  lng={venue.lng}
-                  title={venue.name}
-                  address={venue.address}
-                  onError={onMapError}
-                />
-              </Suspense>
-            )
+            <Suspense fallback={<StaticMap />}>
+              <MapView lat={venue.lat} lng={venue.lng} title={venue.name} address={venue.address} onError={onMapError} />
+            </Suspense>
           ) : (
             <StaticMap />
           )}
@@ -70,15 +62,15 @@ export function Location() {
 
       <Reveal className={styles.apps} delay={0.15}>
         <button type="button" className={styles.app} onClick={() => openNaverMap()}>
-          <span className={styles.appDot} data-app="naver" aria-hidden="true" />
+          <MapAppIcon app="naver" />
           네이버지도
         </button>
         <button type="button" className={styles.app} onClick={() => openKakaoMap()}>
-          <span className={styles.appDot} data-app="kakao" aria-hidden="true" />
+          <MapAppIcon app="kakao" />
           카카오맵
         </button>
         <button type="button" className={styles.app} onClick={() => openTmap()}>
-          <span className={styles.appDot} data-app="tmap" aria-hidden="true" />
+          <MapAppIcon app="tmap" />
           티맵
         </button>
       </Reveal>

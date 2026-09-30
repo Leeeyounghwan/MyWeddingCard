@@ -1,33 +1,44 @@
 import { MapPin } from 'lucide-react'
 import { venue } from '../../data/wedding'
-import { kakaoMapViewUrl } from '../../lib/map'
 import styles from './StaticMap.module.css'
 
 /**
- * 지도 API 키가 없거나 SDK 로드에 실패했을 때 보여주는 대체 화면.
- * 누르면 카카오맵 웹에서 위치를 확인할 수 있습니다.
+ * 지도 API 키가 없거나 SDK 로드에 실패했을 때 보여주는 대체 약도.
+ * 외부 지도 버튼은 아래에 따로 있으므로, 이 영역은 본문 안에서 위치를 바로 보여주는 데 집중합니다.
  */
 export function StaticMap() {
   return (
-    <a className={styles.static} href={kakaoMapViewUrl()} target="_blank" rel="noopener noreferrer">
+    <div className={styles.static} role="img" aria-label={`${venue.name} 위치 약도`}>
       <svg className={styles.lines} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <g fill="none" stroke="currentColor" strokeWidth="1">
-          <path d="M-20 210 C 80 190, 150 230, 240 170 S 360 120, 430 140" />
-          <path d="M-20 90 L 430 110" opacity=".6" />
-          <path d="M120 -20 L 170 320" />
-          <path d="M280 -20 C 260 80, 300 180, 250 320" opacity=".6" />
-          <path d="M-20 260 L 430 240" opacity=".4" />
-          <path d="M40 -20 L 60 320" opacity=".35" />
-          <path d="M350 -20 L 360 320" opacity=".35" />
+        <g className={styles.minorRoads} fill="none">
+          <path d="M-20 56 H420" />
+          <path d="M-20 222 H420" />
+          <path d="M76 -20 V320" />
+          <path d="M326 -20 V320" />
+          <path d="M-20 268 C90 250 140 278 220 244 S340 202 430 224" />
         </g>
+        <g className={styles.mainRoads} fill="none">
+          <path d="M188 -24 C202 58 182 120 196 196 S212 278 196 324" />
+          <path d="M-20 148 C84 134 152 158 236 134 S344 88 430 110" />
+        </g>
+        <text className={styles.roadLabel} x="197" y="40" transform="rotate(83 197 40)">
+          부평대로
+        </text>
+        <text className={styles.station} x="142" y="216">
+          갈산역 2번 출구
+        </text>
+        <circle className={styles.exit} cx="186" cy="196" r="10" />
+        <text className={styles.exitText} x="186" y="200">
+          2
+        </text>
       </svg>
       <span className={styles.pin}>
         <MapPin size={26} strokeWidth={1.25} aria-hidden="true" />
       </span>
       <span className={styles.label}>
         {venue.name}
-        <small>지도에서 위치 확인하기</small>
+        {venue.hall && <small>{venue.hall}</small>}
       </span>
-    </a>
+    </div>
   )
 }
