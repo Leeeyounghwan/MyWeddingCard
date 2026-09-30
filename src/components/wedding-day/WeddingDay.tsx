@@ -45,15 +45,17 @@ export function WeddingDay({ children }: { children?: ReactNode }) {
                       {day && (
                         <span className={styles.cell}>
                           {isDay && (
-                            <svg className={styles.heart} viewBox="0 0 40 40" aria-hidden="true">
-                              <m.path
-                                d="M20 34s-13-7.7-13-18A7.2 7.2 0 0 1 20 11.8 7.2 7.2 0 0 1 33 16c0 10.3-13 18-13 18Z"
-                                initial={reduce ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                                whileInView={{ pathLength: 1, opacity: 1 }}
-                                viewport={viewportOnce}
-                                transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1], delay: 0.6 }}
-                              />
-                            </svg>
+                            <m.svg
+                              className={styles.heart}
+                              viewBox="0 0 48 48"
+                              aria-hidden="true"
+                              initial={reduce ? { opacity: 1 } : { opacity: 0 }}
+                              whileInView={{ opacity: 1 }}
+                              viewport={viewportOnce}
+                              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                            >
+                              <path d="M24 41.2S8.5 32 8.5 18.8A8.6 8.6 0 0 1 24 13.7a8.6 8.6 0 0 1 15.5 5.1C39.5 32 24 41.2 24 41.2Z" />
+                            </m.svg>
                           )}
                           <span className={styles.num}>{day}</span>
                           {isDay && <span className="sr-only">예식일</span>}

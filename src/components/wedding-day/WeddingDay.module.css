@@ -65,6 +65,7 @@
 
 .num {
   position: relative;
+  z-index: 1;
 }
 
 .calendar td[data-wedding] {
@@ -72,33 +73,21 @@
   font-weight: 600;
 }
 
-.calendar td[data-wedding] .cell::before {
-  content: '♥';
+.heart {
   position: absolute;
-  top: 50%;
   left: 50%;
-  color: var(--color-accent-strong);
-  font-family: var(--font-serif);
-  font-size: 2.35rem;
-  line-height: 1;
-  opacity: 0.92;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  overflow: visible;
   transform: translate(-50%, -50%);
   transform-origin: center;
   animation: heartBeat 1.8s ease-in-out 1.2s infinite;
 }
 
-.heart {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
 .heart path {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 1;
+  fill: var(--color-accent-strong);
+  opacity: 0.93;
 }
 
 @keyframes heartBeat {
@@ -121,7 +110,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .calendar td[data-wedding] .cell::before {
+  .heart {
     animation: none;
   }
 }

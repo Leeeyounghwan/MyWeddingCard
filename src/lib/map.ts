@@ -12,6 +12,7 @@ export interface LatLng {
 }
 
 const dest = { name: venue.name, lat: venue.lat, lng: venue.lng }
+const destName = venue.hall ? `${venue.name} ${venue.hall}` : venue.name
 
 /** 지도 SDK 가 주소로 좌표를 보정한 경우, 길찾기 링크도 보정된 좌표를 사용합니다. */
 export function setResolvedDestination(p: LatLng) {
@@ -41,19 +42,19 @@ function openApp(appUrl: string, fallbackUrl: string | null, fallbackMessage?: s
 
 /** 카카오맵 — 웹/앱 공통 URL (모바일에서는 앱이 있으면 앱으로 열림) */
 export function kakaoMapUrl(from?: LatLng | null): string {
-  const to = `${enc(dest.name)},${dest.lat},${dest.lng}`
+  const to = `${enc(destName)},${dest.lat},${dest.lng}`
   if (from) return `https://map.kakao.com/link/from/${enc('현재 위치')},${from.lat},${from.lng}/to/${to}`
   return `https://map.kakao.com/link/to/${to}`
 }
 
 /** 카카오맵 — 위치만 보기 */
 export function kakaoMapViewUrl(): string {
-  return `https://map.kakao.com/link/map/${enc(dest.name)},${dest.lat},${dest.lng}`
+  return `https://map.kakao.com/link/map/${enc(destName)},${dest.lat},${dest.lng}`
 }
 
 export function naverMapWebUrl(from?: LatLng | null): string {
   if (from) {
-    return `https://map.naver.com/p/directions/${from.lng},${from.lat},${enc('현재 위치')},/-/${dest.lng},${dest.lat},${enc(dest.name)},/-/transit`
+    return `https://map.naver.com/p/directions/${from.lng},${from.lat},${enc('현재 위치')},PLACE_POI/${dest.lng},${dest.lat},${enc(destName)},PLACE_POI/-/transit`
   }
   return `https://map.naver.com/p/search/${enc(venue.address)}`
 }
@@ -68,8 +69,8 @@ export function openNaverMap(from?: LatLng | null) {
     return
   }
   const start = from ? `slat=${from.lat}&slng=${from.lng}&sname=${enc('현재 위치')}&` : ''
-  const app = `nmap://route/public?${start}dlat=${dest.lat}&dlng=${dest.lng}&dname=${enc(dest.name)}&appname=${enc(APP_NAME)}`
-  openApp(app, naverMapWebUrl())
+  const app = `nmap://route/public?${start}dlat=${dest.lat}&dlng=${dest.lng}&dname=${enc(destName)}&appname=${enc(APP_NAME)}`
+  openApp(app, naverMapWebUrl(from))
 }
 
 export function openTmap(_from?: LatLng | null) {
@@ -77,7 +78,7 @@ export function openTmap(_from?: LatLng | null) {
     toast('티맵은 모바일 앱에서 이용할 수 있어요.', 2600)
     return
   }
-  const app = `tmap://route?goalname=${enc(dest.name)}&goalx=${dest.lng}&goaly=${dest.lat}`
+  const app = `tmap://route?goalname=${enc(destName)}&goalx=${dest.lng}&goaly=${dest.lat}`
   const store = isIOS
     ? 'https://apps.apple.com/kr/app/id431589174'
     : isAndroid

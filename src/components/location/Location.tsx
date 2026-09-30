@@ -1,19 +1,15 @@
-import { Copy, LocateFixed, MapPin, Phone } from 'lucide-react'
-import { lazy, Suspense, useCallback, useState } from 'react'
+import { Copy, Phone } from 'lucide-react'
+import { Suspense, useCallback, useState } from 'react'
 import { venue } from '../../data/wedding'
 import { transportation } from '../../data/transportation'
-import { useDisclosure } from '../../hooks/useDisclosure'
 import { getCurrentPosition, openKakaoMap, openNaverMap, openTmap } from '../../lib/map'
 import { copyText } from '../../lib/share'
-import { Button } from '../common/Button'
 import { Reveal } from '../common/Reveal'
 import { Section } from '../common/Section'
 import { MapView } from './map/MapProvider'
 import { StaticMap } from './StaticMap'
 import { Transportation } from './Transportation'
 import styles from './Location.module.css'
-
-const DirectionsSheet = lazy(() => import('./DirectionsSheet'))
 
 function MapAppIcon({ app }: { app: 'naver' | 'kakao' | 'tmap' }) {
   return <span className={styles.appIcon} data-app={app} aria-hidden="true" />
@@ -24,7 +20,6 @@ type MapApp = 'naver' | 'kakao' | 'tmap'
 export function Location() {
   const [mapFailed, setMapFailed] = useState(false)
   const onMapError = useCallback(() => setMapFailed(true), [])
-  const directions = useDisclosure()
   const openRoute = useCallback(async (app: MapApp) => {
     const result = await getCurrentPosition()
     const from = result.ok ? result.position : null
@@ -85,28 +80,7 @@ export function Location() {
         </button>
       </Reveal>
 
-      <Reveal className={styles.route} delay={0.2}>
-        <Button
-          variant="primary"
-          block
-          icon={<LocateFixed size={16} strokeWidth={1.5} aria-hidden="true" />}
-          onClick={directions.show}
-          aria-haspopup="dialog"
-        >
-          현재 위치에서 길찾기
-        </Button>
-        <p className={styles.routeHint}>
-          <MapPin size={12} strokeWidth={1.5} aria-hidden="true" /> 위치 권한을 허용하지 않아도 이용할 수 있어요
-        </p>
-      </Reveal>
-
       {transportation.length > 0 && <Transportation items={transportation} />}
-
-      {directions.mounted && (
-        <Suspense fallback={null}>
-          <DirectionsSheet open={directions.open} onClose={directions.hide} />
-        </Suspense>
-      )}
     </Section>
   )
 }

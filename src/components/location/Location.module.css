@@ -141,16 +141,3 @@
   content: 'T';
 }
 
-.route {
-  margin-top: var(--space-6);
-}
-
-.routeHint {
-  margin-top: var(--space-2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  font-size: var(--fs-xs);
-  color: var(--color-text-muted);
-}
