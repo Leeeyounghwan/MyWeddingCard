@@ -47,7 +47,7 @@ function Profile({ person, role, align }: { person: Person; role: 'Groom' | 'Bri
 /** 신랑 · 신부 소개 — 좌우로 엇갈린 매거진 레이아웃 */
 export function Couple() {
   return (
-    <Section id="couple" eyebrow="About Us" title="저희 두 사람을 소개합니다" tone="surface">
+    <Section id="couple" eyebrow="About Us" title="저희 두 사람을 소개합니다">
       <div className={styles.grid}>
         <Profile person={groom} role="Groom" align="left" />
         <Reveal variant="fade" className={styles.amp}>

@@ -87,7 +87,7 @@ function Group({ title, items }: { title: string; items: BankAccount[] }) {
 /** 마음 전하실 곳 — 기본은 접힌 아코디언 (data/accounts.ts) */
 export function Account() {
   return (
-    <Section id="account" eyebrow={accountsTitle.eyebrow} title={accountsTitle.title} description={accountsTitle.description}>
+    <Section id="account" eyebrow={accountsTitle.eyebrow} title={accountsTitle.title} description={accountsTitle.description} tone="surface">
       <Reveal className={styles.groups}>
         <Group title="신랑측 마음 전하실 곳" items={groomAccounts} />
         <Group title="신부측 마음 전하실 곳" items={brideAccounts} />

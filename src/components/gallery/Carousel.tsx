@@ -126,11 +126,32 @@ export function Carousel({ images }: { images: GalleryImage[] }) {
       </div>
 
       {count > 1 && (
-        <p className={styles.counter} aria-hidden="true">
-          <span>{index + 1}</span>
-          <span className={styles.slash}>/</span>
-          <span>{count}</span>
-        </p>
+        <>
+          <p className={styles.counter} aria-hidden="true">
+            <span>{index + 1}</span>
+            <span className={styles.slash}>/</span>
+            <span>{count}</span>
+          </p>
+          <div className={styles.thumbs} aria-label="갤러리 사진 선택">
+            {images.map((thumb, i) => (
+              <button
+                key={thumb.src}
+                type="button"
+                className={styles.thumb}
+                data-active={i === index || undefined}
+                onClick={() => {
+                  setDir(i > index ? 1 : -1)
+                  dragX.set(0)
+                  setIndex(i)
+                }}
+                aria-label={`웨딩 사진 ${i + 1} 보기`}
+              >
+                <img src={asset(thumb.src)} alt="" loading="lazy" decoding="async" draggable={false} />
+              </button>
+            ))}
+          </div>
+          <p className={styles.hint}>사진을 좌우로 넘기거나 썸네일을 눌러보세요</p>
+        </>
       )}
     </div>
   )

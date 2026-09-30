@@ -10,7 +10,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.18, delayChildren: 0.55 } },
+  show: { transition: { staggerChildren: 0.2, delayChildren: 0.45 } },
 }
 const item: Variants = {
   hidden: { opacity: 0, y: 18 },
@@ -39,7 +39,7 @@ export function Hero() {
           draggable={false}
           initial={{ scale: 1.16, opacity: 0.92 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 3.2, ease: EASE }}
+          transition={{ duration: 3.6, ease: EASE }}
         />
       </m.div>
       <div className={styles.shade} aria-hidden="true" />

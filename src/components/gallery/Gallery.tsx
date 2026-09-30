@@ -8,7 +8,7 @@ export function Gallery() {
   if (gallery.length === 0) return null
 
   return (
-    <Section id="gallery" eyebrow="Gallery" title="우리의 순간들" flush>
+    <Section id="gallery" eyebrow="Gallery" title="우리의 순간들" tone="surface" flush>
       <Reveal variant="fade">
         <Carousel images={gallery} />
       </Reveal>
