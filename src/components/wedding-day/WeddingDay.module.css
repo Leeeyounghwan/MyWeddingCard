@@ -83,6 +83,8 @@
   line-height: 1;
   opacity: 0.92;
   transform: translate(-50%, -50%);
+  transform-origin: center;
+  animation: heartBeat 1.8s ease-in-out 1.2s infinite;
 }
 
 .heart {
@@ -97,6 +99,31 @@
   fill: none;
   stroke: var(--color-accent);
   stroke-width: 1;
+}
+
+@keyframes heartBeat {
+  0%,
+  70%,
+  100% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  12% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  24% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar td[data-wedding] .cell::before {
+    animation: none;
+  }
 }
 
 .info {

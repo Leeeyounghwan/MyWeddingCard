@@ -66,7 +66,7 @@ jobs:
           VITE_SITE_URL: ${{ steps.base.outputs.site_url }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
-          VITE_MAP_PROVIDER: ${{ vars.VITE_MAP_PROVIDER }}
+          VITE_MAP_PROVIDER: ${{ vars.VITE_MAP_PROVIDER || 'kakao' }}
           VITE_KAKAO_MAP_KEY: ${{ vars.VITE_KAKAO_MAP_KEY || secrets.VITE_KAKAO_MAP_KEY }}
           VITE_NAVER_MAP_CLIENT_ID: ${{ vars.VITE_NAVER_MAP_CLIENT_ID || secrets.VITE_NAVER_MAP_CLIENT_ID }}
 

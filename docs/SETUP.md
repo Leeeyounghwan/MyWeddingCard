@@ -169,7 +169,7 @@ cp .env.example .env
 
 1. [Kakao Developers](https://developers.kakao.com) → 애플리케이션을 추가합니다.
 2. **앱 키 → JavaScript 키**를 `VITE_KAKAO_MAP_KEY` 에 넣습니다.
-3. **플랫폼 → Web → 사이트 도메인**에 `http://localhost:5173` 과 `https://<아이디>.github.io` 를 등록합니다.
+3. **플랫폼 → Web → 사이트 도메인**에 `http://127.0.0.1:5173`, `https://www.27-04-25.o-r.kr`, `http://www.27-04-25.o-r.kr` 를 등록합니다.
 4. 제품 설정에서 **카카오맵** 사용을 켭니다.
 
 카카오 키가 있으면 주소로 좌표를 자동 보정하므로, 핀과 길찾기 링크가 정확한 위치를 가리킵니다.
