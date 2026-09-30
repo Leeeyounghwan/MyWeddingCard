@@ -66,18 +66,33 @@ export function Location() {
       </Reveal>
 
       <Reveal className={styles.apps} delay={0.15}>
-        <button type="button" className={styles.app} onClick={() => void openRoute('naver')}>
-          <MapAppIcon app="naver" />
-          네이버지도
-        </button>
-        <button type="button" className={styles.app} onClick={() => void openRoute('kakao')}>
-          <MapAppIcon app="kakao" />
-          카카오맵
-        </button>
-        <button type="button" className={styles.app} onClick={() => void openRoute('tmap')}>
-          <MapAppIcon app="tmap" />
-          티맵
-        </button>
+        <div className={styles.appsHead}>
+          <span>지도 앱 길찾기</span>
+          <small>현재 위치에서 예식장까지</small>
+        </div>
+        <div className={styles.appGrid}>
+          <button type="button" className={styles.app} onClick={() => void openRoute('naver')}>
+            <MapAppIcon app="naver" />
+            <span className={styles.appText}>
+              <strong>네이버지도</strong>
+              <small>길찾기</small>
+            </span>
+          </button>
+          <button type="button" className={styles.app} onClick={() => void openRoute('kakao')}>
+            <MapAppIcon app="kakao" />
+            <span className={styles.appText}>
+              <strong>카카오맵</strong>
+              <small>길찾기</small>
+            </span>
+          </button>
+          <button type="button" className={styles.app} onClick={() => void openRoute('tmap')}>
+            <MapAppIcon app="tmap" />
+            <span className={styles.appText}>
+              <strong>티맵</strong>
+              <small>길찾기</small>
+            </span>
+          </button>
+        </div>
       </Reveal>
 
       {transportation.length > 0 && <Transportation items={transportation} />}
