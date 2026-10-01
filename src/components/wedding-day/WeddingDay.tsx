@@ -13,7 +13,7 @@ export function WeddingDay({ children }: { children?: ReactNode }) {
   const cells = monthMatrix(wd.year, wd.month)
 
   return (
-    <Section id="wedding-day" eyebrow="The Day" title="예식 안내" tone="surface">
+    <Section id="wedding-day" eyebrow="The Day" title="예식 안내" tone="surface" className={styles.section}>
       <Reveal className={styles.head}>
         <p className={styles.month}>{monthEn}</p>
         <p className={styles.year}>{wd.year}</p>

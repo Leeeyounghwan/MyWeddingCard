@@ -8,24 +8,9 @@
  */
 import type { GalleryImage } from './types'
 
-const placeholder = (n: number, width: number, height: number): GalleryImage => ({
-  src: `images/gallery/${String(n).padStart(2, '0')}.svg`,
-  width,
-  height,
-  alt: `웨딩 사진 ${n}`,
-})
-
 export const gallery: GalleryImage[] = [
-  placeholder(1, 1600, 1200),
-  placeholder(2, 1200, 1600),
-  placeholder(3, 1200, 1500),
-  placeholder(4, 1200, 1600),
-  placeholder(5, 1600, 1200),
-  placeholder(6, 1200, 1800),
-  placeholder(7, 1200, 1500),
-  placeholder(8, 1200, 1600),
-  placeholder(9, 1600, 1200),
-  placeholder(10, 1200, 1500),
-  placeholder(11, 1200, 1600),
-  placeholder(12, 1200, 1800),
+  { src: 'images/gallery/generated-01.png', width: 1024, height: 1536, alt: '아이보리 스튜디오에 앉은 신랑 신부' },
+  { src: 'images/gallery/generated-02.png', width: 1024, height: 1536, alt: '부케를 든 신랑 신부 클로즈업' },
+  { src: 'images/gallery/generated-03.png', width: 1024, height: 1536, alt: '신랑 프로필 화보' },
+  { src: 'images/gallery/generated-04.png', width: 1024, height: 1536, alt: '신부 프로필 화보' },
 ]

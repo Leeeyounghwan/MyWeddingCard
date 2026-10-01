@@ -3,31 +3,29 @@
  * 테마를 바꾸려면 이 파일의 값만 수정하면 전체에 반영됩니다.
  */
 :root {
-  /* ── Color (Spring) ───────────────────────
-     4월 예식에 맞춰 가을 톤(브라운)이 아닌 봄 느낌의 산뜻한 팔레트입니다.
-     연둣빛 세이지 그린 + 벚꽃 핑크 + 깨끗한 화이트를 기본으로 합니다. */
-  --color-background: #fbfaf6; /* Clean warm white — 페이지 바탕 */
-  --color-surface: #f2f6ee; /* Pale sage — 달력·카드 바탕 */
-  --color-surface-strong: #e6ede0;
-  --color-paper: #fffefb; /* Soft white — 폼/시트 바탕 */
-  --color-primary: #4f724f; /* Spring green — 버튼·강조 */
+  /* ── Color (Spring) ─────────────────────── */
+  --color-background: #fffdf9; /* Clean warm white — 페이지 바탕 */
+  --color-surface: #f7f1e8; /* Light beige — 달력·카드 바탕 */
+  --color-surface-strong: #eee5d8;
+  --color-paper: #ffffff; /* Clean white — 폼/시트 바탕 */
+  --color-primary: #6f6558; /* Soft taupe — 버튼·강조 */
   --color-primary-contrast: #ffffff;
-  --color-text: #2f332c; /* 본문 */
-  --color-text-muted: #6d7266; /* 보조 텍스트 (대비 5:1 이상) */
-  --color-text-soft: #a3a89a; /* 장식용 라벨 (본문에 쓰지 않음) */
-  --color-accent: #f4c9d6; /* Cherry blossom pink — 장식 */
-  --color-accent-strong: #a8456a; /* 벚꽃 핑크 진한 — 텍스트용 */
-  --color-line: #dfe8d6; /* 구분선 */
-  --color-ink: #1c231c; /* 인트로 · 히어로 배경 */
-  --color-outer: #eef2ea; /* 데스크톱에서 모바일 영역 바깥 */
-  --color-overlay: rgba(28, 35, 28, 0.46);
+  --color-text: #332f2a; /* 본문 */
+  --color-text-muted: #756f66; /* 보조 텍스트 */
+  --color-text-soft: #b5aa9d; /* 장식용 라벨 */
+  --color-accent: #eadcc9; /* Warm beige — 장식 */
+  --color-accent-strong: #8b7664; /* Taupe — 텍스트용 */
+  --color-line: #e9dfd1; /* 구분선 */
+  --color-ink: #24211d; /* 히어로 배경 */
+  --color-outer: #f7f3ef; /* 데스크톱에서 모바일 영역 바깥 */
+  --color-overlay: rgba(36, 33, 29, 0.46);
   --color-danger: #b0463c;
 
   /* ── Typography ────────────────────────── */
   --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
     'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif;
-  --font-serif: 'Gowun Batang', 'Nanum Myeongjo', 'AppleMyungjo', serif; /* 한글 제목·초대글 */
-  --font-display: 'Cormorant Garamond', 'Gowun Batang', 'Times New Roman', serif; /* 영문 레터링 */
+  --font-serif: 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', serif; /* 한글 제목·초대글 */
+  --font-display: 'Cormorant Garamond', 'Noto Serif KR', 'Times New Roman', serif; /* 영문 레터링 */
 
   --fs-xs: 0.75rem; /* 12 */
   --fs-sm: 0.8125rem; /* 13 */

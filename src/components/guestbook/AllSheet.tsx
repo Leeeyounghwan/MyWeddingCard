@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { guestbookApi, type GuestbookEntry } from '../../lib/guestbook'
 import { toUserMessage } from '../../lib/supabase'
 import { Button } from '../common/Button'
@@ -13,13 +13,17 @@ export default function AllSheet({
   open,
   onClose,
   onChanged,
+  initialEntries,
+  initialTotal,
 }: {
   open: boolean
   onClose: () => void
   onChanged: () => void
+  initialEntries: GuestbookEntry[]
+  initialTotal: number
 }) {
-  const [entries, setEntries] = useState<GuestbookEntry[]>([])
-  const [total, setTotal] = useState(0)
+  const [entries, setEntries] = useState(initialEntries)
+  const [total, setTotal] = useState(initialTotal)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -37,25 +41,21 @@ export default function AllSheet({
     }
   }, [])
 
-  useEffect(() => {
-    if (open) void fetchPage(0)
-  }, [open, fetchPage])
-
   const handleDeleted = () => {
     void fetchPage(0)
     onChanged()
   }
 
   return (
-    <Sheet open={open} onClose={onClose} eyebrow="Guestbook" title={`방명록 전체보기${total ? ` (${total})` : ''}`}>
+    <Sheet open={open} onClose={onClose} eyebrow="Guestbook" title="방명록 전체보기">
       {error && (
         <div className={styles.state}>
           <p>{error}</p>
         </div>
       )}
-      <ul className={styles.list}>
+      <ul className={`${styles.list} ${styles.cardList}`}>
         {entries.map((e) => (
-          <EntryItem key={e.id} entry={e} onDeleted={handleDeleted} />
+          <EntryItem key={e.id} entry={e} onDeleted={handleDeleted} variant="card" />
         ))}
       </ul>
       {!loading && !error && entries.length === 0 && <p className={styles.state}>아직 남겨진 메시지가 없어요.</p>}

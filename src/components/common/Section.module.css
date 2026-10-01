@@ -9,11 +9,23 @@
 }
 
 .section[data-tone='surface'] {
-  background: var(--color-surface);
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    var(--color-surface) 14%,
+    var(--color-surface) 86%,
+    var(--color-background) 100%
+  );
 }
 
 .section[data-tone='paper'] {
-  background: var(--color-paper);
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    var(--color-paper) 14%,
+    var(--color-paper) 86%,
+    var(--color-background) 100%
+  );
 }
 
 .header {

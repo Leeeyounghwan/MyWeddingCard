@@ -3,7 +3,7 @@
  * 카드에 실제로 쓰인 글자만 담은 Google Fonts 서브셋(text= 파라미터)을 받아
  * base64 로 인라인한 @font-face CSS 를 만들어 전달합니다.
  */
-const FAMILIES = ['Gowun+Batang:wght@400;700', 'Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400']
+const FAMILIES = ['Noto+Serif+KR:wght@400;500;600;700', 'Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400']
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {

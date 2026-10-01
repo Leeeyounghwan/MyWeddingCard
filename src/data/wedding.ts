@@ -21,7 +21,7 @@ export const groom: Person = {
   nameEn: 'Young Hwan',
   relation: '아들', // ✏️ 예: '장남', '차남'
   phone: '010-3260-3531', // ✏️ 예: '010-0000-0000'
-  photo: 'images/couple/groom.svg', // ✏️ public/images/couple/ 에 사진을 넣고 경로 변경
+  photo: 'images/couple/groom-generated.png', // ✏️ public/images/couple/ 에 사진을 넣고 경로 변경
   intro: '', // ✏️ 한 줄 소개 (선택)
   profile: [
     // ✏️ 필요한 항목만 추가하세요. 비워두면 표시되지 않습니다.
@@ -38,7 +38,7 @@ export const bride: Person = {
   nameEn: 'Eun Jin',
   relation: '딸', // ✏️ 예: '장녀', '차녀'
   phone: '010-2529-7816',
-  photo: 'images/couple/bride.svg',
+  photo: 'images/couple/bride-generated.png',
   intro: '',
   profile: [],
   father: { name: '', phone: '' }, // ✏️ 신부 아버지
@@ -85,14 +85,14 @@ export const invitation = {
 export const ending = {
   eyebrow: 'Our New Beginning',
   lines: ['귀한 걸음으로', '저희의 시작을 함께해 주세요.'],
-  photo: 'images/ending.svg', // ✏️ 엔딩 배경 사진
+  photo: 'images/ending-generated.png', // ✏️ 엔딩 배경 사진
 }
 
 export const media = {
   /** 메인 히어로 사진 (세로형 권장, 1200×1800 내외 WebP) */
-  heroImage: 'images/hero.svg', // ✏️
+  heroImage: 'images/hero-generated.png', // ✏️
   /** 청첩장 이미지 저장에 쓰일 사진 (비우면 heroImage 사용) */
-  cardImage: '',
+  cardImage: 'images/hero-generated.png',
   /** 배경음악. public/audio/bgm.mp3 파일을 넣으면 자동으로 동작합니다. */
   bgm: {
     src: 'audio/bgm.mp3',

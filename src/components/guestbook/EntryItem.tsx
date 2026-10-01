@@ -14,7 +14,15 @@ import styles from './EntryItem.module.css'
  * 메시지는 React 텍스트 노드로만 렌더링되므로(HTML 해석 없음) XSS 가 발생하지 않습니다.
  * 삭제는 글 아래에 비밀번호 입력창이 펼쳐지는 인라인 방식입니다.
  */
-export function EntryItem({ entry, onDeleted }: { entry: GuestbookEntry; onDeleted: () => void }) {
+export function EntryItem({
+  entry,
+  onDeleted,
+  variant = 'line',
+}: {
+  entry: GuestbookEntry
+  onDeleted: () => void
+  variant?: 'line' | 'card'
+}) {
   const [confirming, setConfirming] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -41,7 +49,7 @@ export function EntryItem({ entry, onDeleted }: { entry: GuestbookEntry; onDelet
   }
 
   return (
-    <li className={styles.item}>
+    <li className={`${styles.item} ${variant === 'card' ? styles.card : ''}`}>
       <div className={styles.head}>
         <p className={styles.from}>
           <span className={styles.fromLabel}>from.</span> {entry.name}

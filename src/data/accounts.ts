@@ -17,13 +17,13 @@ export const accountsTitle = {
 }
 
 export const groomAccounts: BankAccount[] = [
-  { role: '신랑', bank: '', number: '', holder: '' }, // ✏️
+  { role: '신랑', bank: '테스트은행', number: '000-0000-0000', holder: '이영환' }, // ✏️ 실제 계좌로 교체
   { role: '신랑 아버지', bank: '', number: '', holder: '' }, // ✏️
   { role: '신랑 어머니', bank: '', number: '', holder: '' }, // ✏️
 ]
 
 export const brideAccounts: BankAccount[] = [
-  { role: '신부', bank: '', number: '', holder: '' }, // ✏️
+  { role: '신부', bank: '테스트은행', number: '111-1111-1111', holder: '오은진' }, // ✏️ 실제 계좌로 교체
   { role: '신부 아버지', bank: '', number: '', holder: '' }, // ✏️
   { role: '신부 어머니', bank: '', number: '', holder: '' }, // ✏️
 ]

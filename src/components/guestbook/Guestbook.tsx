@@ -25,6 +25,9 @@ export function Guestbook() {
   const near = useInView(ref, { once: true, margin: '400px 0px' })
   const [entries, setEntries] = useState<GuestbookEntry[] | null>(null)
   const [total, setTotal] = useState(0)
+  const [allEntries, setAllEntries] = useState<GuestbookEntry[] | null>(null)
+  const [allTotal, setAllTotal] = useState(0)
+  const [allLoading, setAllLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const write = useDisclosure()
   const all = useDisclosure()
@@ -39,6 +42,21 @@ export function Guestbook() {
       setError(toUserMessage(e))
     }
   }, [])
+
+  const openAll = useCallback(async () => {
+    setAllLoading(true)
+    setError(null)
+    try {
+      const page = await guestbookApi.list(10, 0)
+      setAllEntries(page.entries)
+      setAllTotal(page.total)
+      all.show()
+    } catch (e) {
+      setError(toUserMessage(e))
+    } finally {
+      setAllLoading(false)
+    }
+  }, [all])
 
   useEffect(() => {
     if (near && guestbookAvailable) void load()
@@ -87,15 +105,23 @@ export function Guestbook() {
           축하 메시지 남기기
         </Button>
         {total > 0 && (
-          <Button variant="outline" block onClick={all.show} aria-haspopup="dialog">
-            방명록 전체보기 <span className={styles.total}>({total})</span>
+          <Button variant="outline" block loading={allLoading} onClick={openAll} aria-haspopup="dialog">
+            방명록 전체보기
           </Button>
         )}
       </Reveal>
 
       <Suspense fallback={null}>
         {write.mounted && <WriteSheet open={write.open} onClose={write.hide} onCreated={load} />}
-        {all.mounted && <AllSheet open={all.open} onClose={all.hide} onChanged={load} />}
+        {all.mounted && allEntries && (
+          <AllSheet
+            open={all.open}
+            onClose={all.hide}
+            onChanged={load}
+            initialEntries={allEntries}
+            initialTotal={allTotal}
+          />
+        )}
       </Suspense>
     </Section>
   )

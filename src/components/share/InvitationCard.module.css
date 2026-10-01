@@ -6,7 +6,7 @@
   padding: 22px 22px 0;
   background: #fbfaf6;
   color: #2f332c;
-  font-family: 'Gowun Batang', serif;
+  font-family: 'Noto Serif KR', serif;
   overflow: hidden;
 }
 
@@ -14,7 +14,7 @@
   width: 100%;
   height: 408px;
   overflow: hidden;
-  background: #e6ede0;
+  background: #eee5d8;
 }
 
 .photo img {
@@ -54,7 +54,7 @@
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 300;
-  color: #a8456a;
+  color: #8b7664;
 }
 
 .date {
@@ -65,7 +65,7 @@
 }
 
 .time {
-  font-family: 'Gowun Batang', serif;
+  font-family: 'Noto Serif KR', serif;
   font-size: 11px;
   letter-spacing: 0.04em;
 }
@@ -75,7 +75,7 @@
   width: 28px;
   height: 1px;
   margin: 14px 0;
-  background: #c9d9bf;
+  background: #e4d5c2;
 }
 
 .venue {

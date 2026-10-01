@@ -10,6 +10,7 @@ import styles from './Account.module.css'
 
 function AccountRow({ a }: { a: BankAccount }) {
   const ready = Boolean(a.bank && a.number)
+  const copyValue = `${a.number.replace(/\D/g, '')} ${a.bank}`.trim()
   return (
     <li className={styles.row}>
       <div className={styles.info}>
@@ -35,7 +36,7 @@ function AccountRow({ a }: { a: BankAccount }) {
           type="button"
           className={styles.copy}
           disabled={!ready}
-          onClick={() => copyText(`${a.bank} ${a.number} ${a.holder}`.trim(), '계좌번호가 복사되었습니다')}
+          onClick={() => copyText(copyValue, '계좌번호가 복사되었습니다')}
           aria-label={`${a.role} 계좌번호 복사`}
         >
           <Copy size={13} strokeWidth={1.5} aria-hidden="true" />
