@@ -16,6 +16,7 @@ const item: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0, transition: { duration: 1.15, ease: EASE } },
 }
+const petals = Array.from({ length: 9 }, (_, i) => i)
 
 /**
  * 메인 히어로 — 사진 한 장으로 몰입감 있게.
@@ -43,6 +44,13 @@ export function Hero() {
         />
       </m.div>
       <div className={styles.shade} aria-hidden="true" />
+      {!reduce && (
+        <div className={styles.petals} aria-hidden="true">
+          {petals.map((i) => (
+            <span key={i} className={styles.petal} />
+          ))}
+        </div>
+      )}
 
       <m.div className={styles.inner} style={{ opacity: textOpacity }}>
         <m.p
@@ -100,9 +108,9 @@ export function Hero() {
         href="#invitation"
         className={styles.scroll}
         aria-label="아래로 스크롤"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2.1 }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.85, delay: 2.75, ease: EASE }}
       >
         <span>Scroll</span>
         <span className={styles.scrollLine} aria-hidden="true" />

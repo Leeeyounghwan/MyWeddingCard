@@ -31,8 +31,96 @@
   pointer-events: none;
 }
 
+.petals {
+  position: absolute;
+  inset: -12% 0 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.petal {
+  position: absolute;
+  top: -8%;
+  left: var(--x);
+  width: var(--size);
+  height: calc(var(--size) * 1.45);
+  border-radius: 72% 28% 68% 32%;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.72), transparent 32%),
+    linear-gradient(135deg, rgba(255, 234, 230, 0.88), rgba(237, 185, 180, 0.42));
+  box-shadow: 0 8px 22px rgba(85, 52, 45, 0.1);
+  opacity: 0;
+  transform: translate3d(0, -12vh, 0) rotate(0deg);
+  animation: petalFall var(--duration) linear var(--delay) infinite;
+}
+
+.petal:nth-child(1) {
+  --x: 8%;
+  --size: 10px;
+  --duration: 15s;
+  --delay: 0s;
+}
+
+.petal:nth-child(2) {
+  --x: 18%;
+  --size: 7px;
+  --duration: 18s;
+  --delay: -5s;
+}
+
+.petal:nth-child(3) {
+  --x: 31%;
+  --size: 9px;
+  --duration: 16s;
+  --delay: -9s;
+}
+
+.petal:nth-child(4) {
+  --x: 46%;
+  --size: 6px;
+  --duration: 20s;
+  --delay: -3s;
+}
+
+.petal:nth-child(5) {
+  --x: 57%;
+  --size: 11px;
+  --duration: 17s;
+  --delay: -12s;
+}
+
+.petal:nth-child(6) {
+  --x: 69%;
+  --size: 8px;
+  --duration: 19s;
+  --delay: -7s;
+}
+
+.petal:nth-child(7) {
+  --x: 78%;
+  --size: 6px;
+  --duration: 21s;
+  --delay: -14s;
+}
+
+.petal:nth-child(8) {
+  --x: 88%;
+  --size: 9px;
+  --duration: 16s;
+  --delay: -2s;
+}
+
+.petal:nth-child(9) {
+  --x: 94%;
+  --size: 7px;
+  --duration: 22s;
+  --delay: -10s;
+}
+
 .inner {
   position: relative;
+  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -135,12 +223,17 @@
   padding: 4px 8px;
 }
 
+.scroll span:first-child {
+  animation: scrollLabel 2.8s var(--ease-in-out) 3.4s infinite;
+}
+
 .scrollLine {
   position: relative;
   width: 1px;
-  height: 40px;
+  height: 44px;
   overflow: hidden;
   background: rgba(255, 253, 249, 0.25);
+  animation: scrollLineGlow 2.8s var(--ease-in-out) 3.4s infinite;
 }
 
 .scrollLine::after {
@@ -161,5 +254,53 @@
   60%,
   100% {
     transform: translateY(100%);
+  }
+}
+
+@keyframes scrollLabel {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translateY(0);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(3px);
+  }
+}
+
+@keyframes scrollLineGlow {
+  0%,
+  100% {
+    background: rgba(255, 253, 249, 0.2);
+  }
+  45% {
+    background: rgba(255, 253, 249, 0.42);
+  }
+}
+
+@keyframes petalFall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -12vh, 0) rotateX(0deg) rotateZ(0deg);
+  }
+  10% {
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(28px, 50vh, 0) rotateX(160deg) rotateZ(120deg);
+  }
+  90% {
+    opacity: 0.48;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-18px, 112vh, 0) rotateX(320deg) rotateZ(260deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petals {
+    display: none;
   }
 }
