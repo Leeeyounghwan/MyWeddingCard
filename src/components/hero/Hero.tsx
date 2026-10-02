@@ -26,8 +26,8 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '18%'])
-  const textOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const imageY = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['0%', '18%'])
+  const textOpacity = useTransform(scrollYProgress, [0, 0.55], reduce ? [1, 1] : [1, 0])
 
   return (
     <section ref={ref} className={styles.hero} aria-label="메인">
