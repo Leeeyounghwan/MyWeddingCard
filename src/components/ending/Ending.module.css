@@ -6,7 +6,7 @@
 .visual {
   position: relative;
   height: 78vh;
-  height: 78svh;
+  height: calc(var(--app-height, 100svh) * 0.78);
   min-height: 480px;
   max-height: 760px;
   overflow: hidden;

@@ -1,6 +1,6 @@
 import { animate, AnimatePresence, m, useMotionValue, type Variants } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useCallback, useRef, useState, type PointerEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react'
 import type { GalleryImage } from '../../data/types'
 import { asset } from '../../lib/asset'
 import styles from './Carousel.module.css'
@@ -20,6 +20,14 @@ export function Carousel({ images }: { images: GalleryImage[] }) {
   const [dir, setDir] = useState(0)
   const dragX = useMotionValue(0)
   const count = images.length
+
+  useEffect(() => {
+    images.forEach((image) => {
+      const img = new Image()
+      img.src = asset(image.src)
+      void img.decode?.().catch(() => {})
+    })
+  }, [images])
 
   const go = useCallback(
     (delta: number) => {

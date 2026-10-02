@@ -1,8 +1,8 @@
 .hero {
   position: relative;
   height: 100vh;
-  height: 100svh; /* 모바일 주소창을 고려한 높이 */
-  min-height: 580px;
+  height: var(--app-height, 100svh); /* 인앱 브라우저 주소창 변동 시 흔들림 방지 */
+  min-height: min(580px, var(--app-height, 580px));
   max-height: 960px;
   overflow: hidden;
   color: #fffdf9;

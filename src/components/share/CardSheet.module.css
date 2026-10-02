@@ -1,6 +1,6 @@
 .preview {
   /* 시트 헤더·안내문구·버튼 영역을 뺀 나머지 높이에 맞춰 줄여 한 화면에 버튼까지 보이게 함 */
-  width: min(100%, 260px, max(120px, calc((100dvh - 420px) * 9 / 16)));
+  width: min(100%, 260px, max(120px, calc((var(--app-height, 100vh) - 420px) * 9 / 16)));
   margin: 0 auto;
   aspect-ratio: 9 / 16;
   box-shadow: var(--shadow-md);

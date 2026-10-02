@@ -1,5 +1,5 @@
 import { Minus, Plus } from 'lucide-react'
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useId, useState, type FormEvent } from 'react'
 import { isLocalMock, toUserMessage } from '../../lib/supabase'
 import { rsvpSubmittedName, submitRsvp, type Meal, type Side } from '../../lib/rsvp'
 import { toast } from '../../lib/toast'
@@ -35,16 +35,11 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
   const [honey, setHoney] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [done, setDone] = useState(false)
-  const openedAt = useRef(Date.now())
   const ids = useId()
   const previous = rsvpSubmittedName()
 
-  // 다시 열 때마다 완료 화면 초기화
   useEffect(() => {
     if (!open) return
-    openedAt.current = Date.now()
-    setDone(false)
     setError(null)
     if (previous) toast(`${previous}님의 회신이 이미 전달되었어요.\n변경사항이 있으면 다시 보내주세요.`, 3600)
   }, [open, previous])
@@ -58,15 +53,17 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
     if (phone && !PHONE_RE.test(phone.trim())) return setError('연락처 형식을 확인해 주세요. (예: 010-1234-5678)')
     if (hasLink(memo) || hasBlockedWord(memo) || hasBlockedWord(n)) return setError('입력 내용을 다시 확인해 주세요.')
     if (!agree) return setError('개인정보 수집 · 이용에 동의해 주세요.')
-    // 봇 방지: 숨김 필드가 채워졌거나 3초 안에 제출되면 조용히 성공 처리
-    if (honey || Date.now() - openedAt.current < 3000) {
-      setDone(true)
+    // 봇 방지: 숨김 필드가 채워지면 조용히 성공 처리
+    if (honey) {
+      toast('소중한 회신 감사합니다')
+      onClose()
       return
     }
     setLoading(true)
     try {
       await submitRsvp({ side, name: n, attending, partySize: party, meal, phone, memo })
-      setDone(true)
+      toast('소중한 회신 감사합니다')
+      onClose()
     } catch (err) {
       setError(toUserMessage(err))
     } finally {
@@ -76,30 +73,19 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
 
   return (
     <Sheet open={open} onClose={onClose} eyebrow="R.S.V.P." title="참석 여부 전달">
-      {done ? (
-        <div className={f.done}>
-          <p className={f.doneTitle}>소중한 회신 감사합니다</p>
-          <p className={f.doneText}>
-            {attending ? '예식 당일 반갑게 맞이하겠습니다.' : '마음으로 함께해 주셔서 감사합니다.'}
-          </p>
-          <Button variant="primary" block onClick={onClose}>
-            닫기
-          </Button>
-        </div>
-      ) : (
-        <form className={f.form} onSubmit={submit} noValidate>
-          {isLocalMock && <p className={f.notice}>개발 모드: Supabase 미설정으로 이 브라우저에만 저장됩니다.</p>}
+      <form className={f.form} onSubmit={submit} noValidate>
+        {isLocalMock && <p className={f.notice}>개발 모드: Supabase 미설정으로 이 브라우저에만 저장됩니다.</p>}
 
-          <Segment
-            name="side"
-            legend="어느 분의 하객이신가요?"
-            value={side}
-            onChange={setSide}
-            options={[
-              { value: 'groom', label: '신랑측' },
-              { value: 'bride', label: '신부측' },
-            ]}
-          />
+        <Segment
+          name="side"
+          legend="어느 분의 하객이신가요?"
+          value={side}
+          onChange={setSide}
+          options={[
+            { value: 'groom', label: '신랑측' },
+            { value: 'bride', label: '신부측' },
+          ]}
+        />
 
           <div className={f.field}>
             <label className={f.label} htmlFor={`${ids}-name`}>
@@ -224,11 +210,10 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
             </p>
           )}
 
-          <Button type="submit" variant="primary" block loading={loading}>
-            전달하기
-          </Button>
-        </form>
-      )}
+        <Button type="submit" variant="primary" block loading={loading}>
+          전달하기
+        </Button>
+      </form>
     </Sheet>
   )
 }

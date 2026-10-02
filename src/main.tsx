@@ -6,6 +6,11 @@ import './styles/global.css'
 
 const inAppBrowser = /KAKAOTALK|NAVER|FBAN|FB_IAB|Instagram|Line\//i.test(navigator.userAgent)
 document.documentElement.toggleAttribute('data-in-app-browser', inAppBrowser)
+if (inAppBrowser) {
+  const setAppHeight = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`)
+  setAppHeight()
+  window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 250), { passive: true })
+}
 
 /**
  * 데스크톱 우클릭 '이미지 저장/복사'를 막습니다. (모바일 길게 누르기는 CSS -webkit-touch-callout 로 처리)
