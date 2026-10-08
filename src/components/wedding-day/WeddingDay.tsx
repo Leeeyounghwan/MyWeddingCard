@@ -1,6 +1,8 @@
 import { m, useReducedMotion } from 'framer-motion'
+import { CalendarPlus, Download } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { venue } from '../../data/wedding'
+import { downloadIcs, googleCalendarUrl } from '../../lib/calendar'
 import { fullDateKo, monthEn, monthMatrix, WEEKDAY_LABELS, wd } from '../../lib/date'
 import { viewportOnce } from '../../lib/motion'
 import { Reveal } from '../common/Reveal'
@@ -76,6 +78,16 @@ export function WeddingDay({ children }: { children?: ReactNode }) {
           {venue.name}
           {venue.hall && <span> {venue.hall}</span>}
         </p>
+        <div className={styles.calendarActions}>
+          <a className={styles.calendarButton} href={googleCalendarUrl()} target="_blank" rel="noreferrer">
+            <CalendarPlus size={15} strokeWidth={1.5} aria-hidden="true" />
+            Google 캘린더
+          </a>
+          <button type="button" className={styles.calendarButton} onClick={downloadIcs}>
+            <Download size={15} strokeWidth={1.5} aria-hidden="true" />
+            기본 캘린더
+          </button>
+        </div>
       </Reveal>
 
       {/* Countdown 등 달력 아래에 이어지는 콘텐츠 */}

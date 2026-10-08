@@ -140,3 +140,36 @@
   color: var(--color-text-muted);
   font-size: var(--fs-sm);
 }
+
+.calendarActions {
+  margin-top: var(--space-4);
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: min(100%, 300px);
+}
+
+.calendarButton {
+  min-height: 38px;
+  padding: 0 var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(111, 95, 81, 0.28);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 253, 249, 0.72);
+  color: #4a4037;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+button.calendarButton {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.calendarButton:active {
+  transform: scale(0.98);
+}
