@@ -1,4 +1,4 @@
-import { useInView } from 'framer-motion'
+import { AnimatePresence, m, useInView, useReducedMotion } from 'framer-motion'
 import { PenLine } from 'lucide-react'
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { useDisclosure } from '../../hooks/useDisclosure'
@@ -22,7 +22,8 @@ const PREVIEW = 4
  */
 export function Guestbook() {
   const ref = useRef<HTMLDivElement>(null)
-  const near = useInView(ref, { once: true, margin: '400px 0px' })
+  const near = useInView(ref, { once: true, margin: '1000px 0px' })
+  const reduce = useReducedMotion()
   const [entries, setEntries] = useState<GuestbookEntry[] | null>(null)
   const [total, setTotal] = useState(0)
   const [allEntries, setAllEntries] = useState<GuestbookEntry[] | null>(null)
@@ -63,36 +64,44 @@ export function Guestbook() {
   }, [near, load])
 
   if (!guestbookAvailable) return null
+  const stateKey = error ? 'error' : entries === null ? 'loading' : entries.length === 0 ? 'empty' : 'list'
 
   return (
     <Section id="guestbook" eyebrow="Guestbook" title="축하의 한마디" tone="paper">
-      <div ref={ref} className={styles.preview} aria-busy={entries === null && !error}>
-        {error ? (
-          <div className={styles.state}>
-            <p>{error}</p>
-            <Button size="sm" variant="ghost" onClick={load}>
-              다시 불러오기
-            </Button>
-          </div>
-        ) : entries === null ? (
-          <ul className={styles.list} aria-label="불러오는 중">
-            {[0, 1].map((i) => (
-              <li key={i} className={styles.skeleton} />
-            ))}
-          </ul>
-        ) : entries.length === 0 ? (
-          <Reveal as="p" className={styles.state}>
-            아직 남겨진 메시지가 없어요.
-            <br />첫 번째 축하 메시지를 남겨주세요.
-          </Reveal>
-        ) : (
-          <ul className={styles.list}>
-            {entries.map((e) => (
-              <EntryItem key={e.id} entry={e} onDeleted={load} />
-            ))}
-          </ul>
-        )}
-      </div>
+      <m.div ref={ref} className={styles.preview} aria-busy={entries === null && !error} layout={!reduce}>
+        <AnimatePresence mode="wait" initial={false}>
+          <m.div
+            key={stateKey}
+            className={styles.content}
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {error ? (
+              <div className={styles.state}>
+                <p>{error}</p>
+                <Button size="sm" variant="ghost" onClick={load}>
+                  다시 불러오기
+                </Button>
+              </div>
+            ) : entries === null ? (
+              <p className={styles.state}>축하 메시지를 불러오는 중이에요.</p>
+            ) : entries.length === 0 ? (
+              <p className={styles.state}>
+                아직 남겨진 메시지가 없어요.
+                <br />첫 번째 축하 메시지를 남겨주세요.
+              </p>
+            ) : (
+              <ul className={styles.list}>
+                {entries.map((e) => (
+                  <EntryItem key={e.id} entry={e} onDeleted={load} />
+                ))}
+              </ul>
+            )}
+          </m.div>
+        </AnimatePresence>
+      </m.div>
 
       <Reveal className={styles.actions}>
         <Button

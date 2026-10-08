@@ -47,6 +47,7 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
+    if (loading) return
     setError(null)
     const n = normalize(name)
     if (!n || n.length > LIMITS.name) return setError(`성함을 1~${LIMITS.name}자로 입력해 주세요.`)
@@ -55,15 +56,15 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
     if (!agree) return setError('개인정보 수집 · 이용에 동의해 주세요.')
     // 봇 방지: 숨김 필드가 채워지면 조용히 성공 처리
     if (honey) {
-      toast('소중한 회신 감사합니다')
       onClose()
+      toast('소중한 회신 감사합니다')
       return
     }
     setLoading(true)
     try {
       await submitRsvp({ side, name: n, attending, partySize: party, meal, phone, memo })
-      toast('소중한 회신 감사합니다')
       onClose()
+      toast('소중한 회신 감사합니다')
     } catch (err) {
       setError(toUserMessage(err))
     } finally {

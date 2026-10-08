@@ -2,6 +2,10 @@
   min-height: 120px;
 }
 
+.content {
+  width: 100%;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -9,13 +13,6 @@
 
 .cardList {
   gap: var(--space-3);
-}
-
-.skeleton {
-  height: 112px;
-  border-bottom: 1px solid var(--color-line);
-  background: linear-gradient(90deg, transparent, rgba(233, 224, 212, 0.55), transparent) 0 0 / 200% 100%;
-  animation: shimmer 1.6s linear infinite;
 }
 
 .state {
@@ -31,10 +28,4 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-}
-
-@keyframes shimmer {
-  to {
-    background-position: -200% 0;
-  }
 }
