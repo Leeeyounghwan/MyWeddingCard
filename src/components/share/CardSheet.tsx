@@ -49,7 +49,7 @@ export default function CardSheet({ open, onClose }: { open: boolean; onClose: (
     try {
       await document.fonts?.ready
       await waitForImages(node)
-      const [{ toPng }, fontEmbedCSS] = await Promise.all([import('html-to-image'), buildCardFontCss(CARD_TEXT)])
+      const [{ toBlob, toPng }, fontEmbedCSS] = await Promise.all([import('html-to-image'), buildCardFontCss(CARD_TEXT)])
       const options = {
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
@@ -59,8 +59,9 @@ export default function CardSheet({ open, onClose }: { open: boolean; onClose: (
       }
       // Safari 는 foreignObject 안의 이미지를 첫 렌더에서 빠뜨리는 버그가 있어 한 번 예열합니다.
       if (isIOS || isSafari) await toPng(node, options)
-      const url = await toPng(node, options)
-      const blob = await (await fetch(url)).blob()
+      const blob = await toBlob(node, options)
+      if (!blob) throw new Error('Card image render failed')
+      const url = URL.createObjectURL(blob)
       setDataUrl(url)
       setFile(new File([blob], FILE_NAME, { type: 'image/png' }))
       setStatus('ready')
@@ -73,6 +74,12 @@ export default function CardSheet({ open, onClose }: { open: boolean; onClose: (
   useEffect(() => {
     if (open && !dataUrl) void generate()
   }, [open, dataUrl, generate])
+
+  useEffect(() => {
+    return () => {
+      if (dataUrl) URL.revokeObjectURL(dataUrl)
+    }
+  }, [dataUrl])
 
   const download = () => {
     if (!file || !dataUrl) return

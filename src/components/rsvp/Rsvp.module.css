@@ -19,3 +19,20 @@
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
 }
+
+.saved {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: var(--space-4);
+}
+
+.saved p {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}

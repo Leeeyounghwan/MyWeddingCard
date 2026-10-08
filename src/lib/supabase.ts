@@ -31,6 +31,7 @@ export function getSupabase(): Promise<SupabaseClient> {
 }
 
 const ERROR_MESSAGES: Record<string, string> = {
+  INVALID_EDIT_LINK: '수정 링크가 올바르지 않거나 응답을 찾을 수 없어요. 저장해 둔 링크를 확인해 주세요.',
   RATE_LIMITED: '잠시 후 다시 시도해 주세요.',
   INVALID_NAME: '이름을 1~20자로 입력해 주세요.',
   INVALID_MESSAGE: '메시지를 1~500자로 입력해 주세요.',

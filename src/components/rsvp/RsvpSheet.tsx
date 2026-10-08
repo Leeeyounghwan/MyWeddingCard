@@ -1,7 +1,8 @@
 import { Minus, Plus } from 'lucide-react'
-import { useEffect, useId, useState, type FormEvent } from 'react'
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { isLocalMock, toUserMessage } from '../../lib/supabase'
-import { rsvpSubmittedName, submitRsvp, type Meal, type Side } from '../../lib/rsvp'
+import { getRsvp, submitRsvp, type Meal, type Side } from '../../lib/rsvp'
+import { createRsvpEditKey } from '../../lib/rsvpEditLink'
 import { toast } from '../../lib/toast'
 import { hasBlockedWord, hasLink, LIMITS, normalize, PHONE_RE } from '../../lib/validation'
 import { Button } from '../common/Button'
@@ -21,9 +22,15 @@ function formatPhoneInput(value: string, previous: string) {
 /**
  * RSVP 폼
  * - 개인정보 최소 수집: 이름 · 참석여부 · 인원 · 식사 · (선택)연락처 · (선택)메모
- * - 수집 · 이용 동의 필수, 제출 데이터는 신랑신부만 Supabase 대시보드에서 확인 가능 (클라이언트 조회 불가)
+ * - 수집 · 이용 동의 필수, 수정 키가 있는 경우에만 본인의 응답 조회 가능
  */
-export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+export default function RsvpSheet({ open, onClose, editKey, onSaved, onLoaded }: {
+  open: boolean
+  onClose: () => void
+  editKey: string | null
+  onSaved: (key: string) => void
+  onLoaded: (key: string) => void
+}) {
   const [side, setSide] = useState<Side>('groom')
   const [attend, setAttend] = useState<'yes' | 'no'>('yes')
   const [name, setName] = useState('')
@@ -36,18 +43,41 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const ids = useId()
-  const previous = rsvpSubmittedName()
+  const submissionKey = useRef(editKey)
+  const submitting = useRef(false)
+  const [loadState, setLoadState] = useState<'loading' | 'ready' | 'error'>(editKey !== null ? 'loading' : 'ready')
+  const [retry, setRetry] = useState(0)
 
   useEffect(() => {
     if (!open) return
     setError(null)
-    if (previous) toast(`${previous}님의 회신이 이미 전달되었어요.\n변경사항이 있으면 다시 보내주세요.`, 3600)
-  }, [open, previous])
+    setAgree(false)
+    if (editKey === null) return
+    let active = true
+    setLoadState('loading')
+    void getRsvp(editKey).then((input) => {
+      if (!active) return
+      setSide(input.side)
+      setAttend(input.attending ? 'yes' : 'no')
+      setName(input.name)
+      setParty(Math.max(1, input.partySize))
+      setMeal(input.meal)
+      setPhone(input.phone)
+      setMemo(input.memo)
+      onLoaded(editKey)
+      setLoadState('ready')
+    }).catch((err) => {
+      if (!active) return
+      setError(toUserMessage(err))
+      setLoadState('error')
+    })
+    return () => { active = false }
+  }, [open, editKey, retry, onLoaded])
   const attending = attend === 'yes'
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
-    if (loading) return
+    if (submitting.current || loadState !== 'ready') return
     setError(null)
     const n = normalize(name)
     if (!n || n.length > LIMITS.name) return setError(`성함을 1~${LIMITS.name}자로 입력해 주세요.`)
@@ -60,20 +90,31 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
       toast('소중한 회신 감사합니다')
       return
     }
+    submitting.current = true
     setLoading(true)
     try {
-      await submitRsvp({ side, name: n, attending, partySize: party, meal, phone, memo })
-      onClose()
-      toast('소중한 회신 감사합니다')
+      submissionKey.current ??= createRsvpEditKey()
+      await submitRsvp({ side, name: n, attending, partySize: party, meal, phone, memo }, submissionKey.current, editKey === null)
+      onSaved(submissionKey.current)
+      toast(editKey !== null ? '수정사항이 전달되었습니다' : '소중한 회신 감사합니다')
     } catch (err) {
       setError(toUserMessage(err))
     } finally {
+      submitting.current = false
       setLoading(false)
     }
   }
 
   return (
-    <Sheet open={open} onClose={onClose} eyebrow="R.S.V.P." title="참석 여부 전달">
+    <Sheet open={open} onClose={loading ? () => {} : onClose} eyebrow="R.S.V.P." title={editKey !== null ? '참석 여부 수정' : '참석 여부 전달'}>
+      {loadState !== 'ready' ? (
+        <div className={f.done} style={{ minHeight: 260 }} aria-busy={loadState === 'loading'}>
+          {loadState === 'loading' ? <p role="status">기존 회신을 불러오고 있습니다.</p> : <>
+            <p className={f.error} role="alert">{error}</p>
+            <Button onClick={() => setRetry((value) => value + 1)}>다시 시도</Button>
+          </>}
+        </div>
+      ) : (
       <form className={f.form} onSubmit={submit} noValidate>
         {isLocalMock && <p className={f.notice}>개발 모드: Supabase 미설정으로 이 브라우저에만 저장됩니다.</p>}
 
@@ -212,9 +253,10 @@ export default function RsvpSheet({ open, onClose }: { open: boolean; onClose: (
           )}
 
         <Button type="submit" variant="primary" block loading={loading}>
-          전달하기
+          {editKey !== null ? '수정사항 전달하기' : '전달하기'}
         </Button>
       </form>
+      )}
     </Sheet>
   )
 }

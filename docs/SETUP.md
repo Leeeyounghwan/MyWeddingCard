@@ -144,6 +144,19 @@ cp .env.example .env
    update public.rsvp set phone = null;
    ```
 
+### RSVP 수정 링크 (2026-10-08)
+
+- 기존 DB: `supabase/migrations/20261008_rsvp_edit_keys.sql`을 SQL Editor에서 실행한 뒤 프런트엔드를 배포합니다. 새 DB는 `supabase/schema.sql` 전체를 실행합니다.
+- `save_rsvp`는 최초 제출에 수정 키의 SHA-256 해시를 저장하고, 같은 키의 재요청은 기존 응답을 수정합니다. 수정 요청에 해당하는 키가 없으면 새 응답을 만들지 않습니다.
+- `get_rsvp_by_key`는 키가 일치하는 응답 하나의 입력 정보만 반환합니다. 키 해시와 IP 해시는 반환하지 않습니다.
+- 기존 행에는 키를 소급 부여하지 않습니다. 이름/전화번호만으로 과거 응답을 연결하지 않습니다.
+- 수정 링크는 `#rsvp-edit=...` 형식입니다. 앱이 읽은 뒤 주소에서 제거하며 일반 공유 링크에는 포함하지 않습니다. 링크를 가진 사람은 응답을 조회/수정할 수 있으므로 본인만 보관해야 합니다.
+- 일반 방문에서는 자동 복원하지 않습니다. 저장된 키가 있으면 '이전 회신 수정'으로 직접 불러올 수 있습니다. 다른 기기에서는 수정 링크를 열면 됩니다.
+- 수정 링크는 생성 당시 주소를 사용합니다. 임시 터널을 종료하거나 도메인을 변경하면 기존 링크도 사용할 수 없습니다. 운영 시 고정 HTTPS 주소를 사용하세요.
+- 로컬 모드는 같은 브라우저에서만 동작합니다. 기기 간 조회/수정에는 Supabase 설정과 위 SQL 적용이 필요합니다.
+- DB 검증은 별도 테스트 DB의 SQL Editor에서 `supabase/tests/rsvp_edit_keys.sql`을 실행합니다. 테스트 데이터는 마지막에 롤백됩니다.
+- 클라이언트 자동 검증: Node 24에서 `node --experimental-vm-modules --test tests/rsvp.test.mjs`를 실행합니다. 저장/조회 RPC는 모의 응답으로 검증하며 실제 DB 검증을 대신하지 않습니다.
+
 ## 7. Supabase SQL Schema
 
 전체 내용은 [`supabase/schema.sql`](supabase/schema.sql) 에 있습니다. 요약:
