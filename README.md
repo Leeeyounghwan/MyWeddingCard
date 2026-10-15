@@ -1,91 +1,91 @@
-<div align="center">
+# MyWeddingCard 💌
 
-# 💌 MyWeddingCard
-**모바일 청첩장 — 정적 웹과 데이터 서비스를 연결한 개인 프로젝트**
+결혼 준비를 하면서 모바일 청첩장을 직접 만들어보고 싶어 시작한 프로젝트입니다.
 
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?logo=supabase&logoColor=white) ![Pages](https://img.shields.io/badge/Deploy-GitHub_Pages-222222?logo=github)
+시중에 있는 청첩장 서비스도 편리하지만, 처음 화면이 열리는 방식이나 스크롤 애니메이션, 사진 배치 등을 원하는 대로 바꾸고 싶었습니다. 만들다 보니 방명록과 참석 여부(RSVP)를 저장하는 기능까지 추가하게 됐습니다.
 
-</div>
+React로 화면을 만들고 GitHub Pages에 배포하며, 데이터가 필요한 기능은 Supabase를 사용합니다.
 
-## 1. 왜 만들었나요?
+## 구현한 기능
 
-결혼 준비 과정에서 **모바일 청첩장의 디자인과 사용자 경험을 직접 제어**하고 싶어 시작했습니다. 정적 호스팅의 장점을 유지하면서도 방명록과 참석 여부(RSVP)처럼 데이터를 저장해야 하는 기능을 구현하는 것이 핵심 과제였습니다.
+- 인트로 화면과 스크롤 애니메이션
+- 예식 정보, 달력, 카운트다운
+- 사진 갤러리와 확대 보기
+- 카카오·네이버 지도와 길찾기
+- 방명록 작성/삭제, 참석 여부(RSVP) 등록
+- 연락처·계좌번호 복사
+- 배경음악 재생 제어
+- 링크 공유, OG 미리보기, 초대장 이미지 저장
 
-이 저장소는 실제 초대장 콘텐츠를 포함할 수 있습니다. 개인정보가 담긴 화면·데이터의 재배포에는 주의해 주세요.
+## 구현하면서 고민했던 부분
 
-## 2. 주요 기능
+### 정적 사이트에서 방명록을 어떻게 저장할까?
 
-| 영역 | 기능 |
-| --- | --- |
-| 초대 경험 | 인트로, 스크롤 애니메이션, 예식 카운트다운·달력 |
-| 콘텐츠 | 인사말, 갤러리·확대 보기, 연락처·계좌 복사 |
-| 위치 | 카카오/네이버 지도, 교통·길찾기 안내 |
-| 참여 | 방명록 작성·삭제, 참석 여부(RSVP) 기록 |
-| 공유 | Open Graph 메타데이터, 링크 복사, 초대장 이미지 저장 |
-| 편의 | 배경음악 제어, 반응형 모바일 UI |
+처음부터 별도 서버를 운영하고 싶지는 않았습니다. 화면은 GitHub Pages에 올리고 방명록·RSVP만 Supabase PostgreSQL에 저장하는 방식으로 구성했습니다.
 
-## 3. 시스템 설계
+브라우저에서 DB 테이블을 직접 수정하도록 두는 대신, RLS로 테이블 접근을 제한하고 PostgreSQL RPC 함수로 입력·삭제 등의 요청을 처리하도록 했습니다. 입력값 검증과 요청 제한도 함수 쪽에 두었습니다.
+
+관련 코드는 [supabase/schema.sql](supabase/schema.sql)에 있습니다. 다만 실제 배포 DB의 권한 설정까지 별도로 확인해야 보안 상태를 판단할 수 있습니다.
 
 ```mermaid
 flowchart LR
- User[모바일 브라우저] --> UI[React + Vite 정적 사이트]
- UI -->|RPC 호출| SB[Supabase API]
- SB --> Func[PostgreSQL 함수]
- Func --> DB[(Guestbook / RSVP)]
- Action[GitHub Actions] --> Pages[GitHub Pages]
- Pages --> UI
+    A[모바일 브라우저] --> B[React 정적 페이지]
+    B -->|RPC| C[Supabase]
+    C --> D[(PostgreSQL)]
+    E[GitHub Actions] --> F[GitHub Pages]
+    F --> B
 ```
 
-| 영역 | 구현 기술 |
+### 모바일에서 처음 열릴 때 너무 무겁지 않도록
+
+사진과 애니메이션이 많은 페이지라 초기 로딩을 신경 썼습니다. 첫 화면에 필요한 부분을 먼저 보여주고 아래쪽 섹션은 나중에 불러오도록 나눴습니다. 지도나 이미지 저장 기능도 필요한 시점에 로드하는 구조를 사용했습니다.
+
+성능 점수를 따로 측정해 정리한 것은 아니라서, 추후 Lighthouse 등으로 확인해 보려고 합니다.
+
+### 참석 여부를 수정할 때
+
+RSVP는 한 번 제출한 내용을 다시 수정할 수 있어야 했습니다. 이를 위해 수정용 키를 사용하는 흐름을 구성하고, 중복 제출과 잘못된 키, RPC 오류가 발생했을 때의 동작을 테스트 코드로 작성했습니다.
+
+테스트 코드는 [tests/rsvp.test.mjs](tests/rsvp.test.mjs)에서 확인할 수 있습니다. 아직 `package.json`에 `npm test` 명령을 넣거나 CI에 연결하지는 않았습니다.
+
+## 사용 기술
+
+| 구분 | 기술 |
 | --- | --- |
 | Frontend | React 19, TypeScript, Vite |
-| Animation | Framer Motion / LazyMotion |
-| Styles | CSS Modules / CSS Variables |
-| Database | Supabase PostgreSQL |
-| Access | Row Level Security, PostgreSQL RPC |
-| Deployment | GitHub Actions → GitHub Pages |
+| Animation | Framer Motion |
+| Styling | CSS Modules, CSS Variables |
+| Database | Supabase PostgreSQL, RLS, RPC |
+| 기타 | Kakao Maps, Naver Maps, html-to-image |
+| Deployment | GitHub Actions, GitHub Pages |
 
-### Engineering Decisions
-
-**① 정적 사이트 + DB**
-별도 상시 실행 서버 없이 GitHub Pages에서 화면을 제공하고, 쓰기 기능은 Supabase RPC를 이용합니다. 따라서 앱 배포와 DB 운영의 책임을 분리했습니다.
-
-**② 테이블 직접 접근 대신 RPC**
-[DB 스키마](supabase/schema.sql)에서 방명록·RSVP 테이블의 RLS를 활성화하고 브라우저 역할의 직접 접근 권한을 제한합니다. 데이터 처리는 `security definer` 함수에서 검증하는 방식입니다. **함수 권한과 실제 배포 DB 설정에 대한 별도 보안 검증은 필요**하며, 문서상 설계를 보안 인증으로 해석해서는 안 됩니다.
-
-**③ 모바일 초기 로딩**
-첫 화면과 하단 섹션을 분리해 지연 로딩하며, 지도·이미지 저장 등 일부 기능은 필요할 때 불러옵니다. 성능 개선의 방향을 반영한 구조이며 측정 점수는 기재하지 않았습니다.
-
-**④ 데이터와 UI 분리**
-청첩장 콘텐츠는 `src/data/`에서 관리하고, 빌드 과정에서 일부 SEO/OG 메타데이터에 활용합니다.
-
-**⑤ 실패 흐름 테스트**
-[RSVP 테스트](tests/rsvp.test.mjs)에는 수정용 키 생성, 잘못된 키, 중복 전송, RPC 실패 처리 등의 사례가 포함되어 있습니다.
-
-## 4. 프로젝트 구조
+## 프로젝트 구조
 
 ```text
-MyWeddingCard/
-├── .github/workflows/deploy.yml  # Pages 배포 자동화
-├── public/                       # 이미지·오디오 등
-├── src/
-│   ├── data/                     # 초대장 콘텐츠
-│   ├── components/               # 화면 섹션
-│   ├── hooks/                     # 공통 훅
-│   ├── lib/                       # Supabase, RSVP, 공유 등
-│   └── styles/                    # 디자인 스타일
-├── supabase/schema.sql           # DB·RLS·RPC
-├── tests/rsvp.test.mjs           # RSVP 테스트
-└── docs/SETUP.md                 # 설치와 설정
+src/
+├── data/          # 청첩장에 들어가는 내용
+├── components/    # 화면 구성
+├── hooks/         # 공통 훅
+├── lib/           # Supabase, RSVP, 공유 기능
+└── styles/        # 스타일
+
+supabase/schema.sql       # DB 및 RPC 함수
+tests/rsvp.test.mjs       # RSVP 관련 테스트
+.github/workflows/        # GitHub Pages 배포
+docs/SETUP.md             # 환경 설정 가이드
 ```
 
-## 5. 로컬 실행
+이름이나 일정 같은 내용은 `src/data/`에서 관리하고, 빌드 시 일부 데이터를 OG 메타태그에도 반영합니다.
+
+## 로컬에서 실행하기
 
 ```bash
 npm install
-# .env.example을 참고하여 .env 작성
+# .env.example 파일을 참고해 .env 작성
 npm run dev
 ```
+
+빌드 및 타입 확인:
 
 ```bash
 npm run typecheck
@@ -93,29 +93,19 @@ npm run build
 npm run preview
 ```
 
-키가 없는 로컬 환경에서는 일부 외부 연동 기능이 대체 동작하거나 제한될 수 있습니다. 구체적인 변수와 설정 방식은 [SETUP](docs/SETUP.md)을 참고하세요.
+환경변수와 외부 서비스 설정은 [SETUP.md](docs/SETUP.md)에 정리했습니다. 키가 없으면 일부 기능은 제한되거나 대체 화면으로 동작할 수 있습니다.
 
-## 6. 테스트·배포 현황
+`main`에 푸시하면 [배포 워크플로](.github/workflows/deploy.yml)가 GitHub Pages 빌드와 배포를 진행합니다.
 
-- **테스트 코드:** `tests/rsvp.test.mjs`에 RSVP 핵심 흐름 검증 사례가 있습니다.
-- **주의:** 현재 `package.json`에는 별도 `npm test` 명령이 없습니다. 테스트 코드 존재와 CI 자동 실행을 혼동하지 마세요.
-- **빌드:** `npm run build`는 TypeScript 빌드 검사와 Vite 프로덕션 빌드를 실행합니다.
-- **배포:** [GitHub Actions](.github/workflows/deploy.yml)에서 `main` push 시 GitHub Pages 배포를 수행합니다.
+## 앞으로 보완할 부분
 
-## 7. 보안 및 운영 시 고려 사항
+- RSVP 테스트를 명령어와 CI에 연결하기
+- Supabase RPC와 RLS 정책 통합 테스트
+- 모바일 성능 측정 및 최적화
+- DB 백업과 무료 프로젝트의 일시중지에 대비하기
 
-- `VITE_` 환경변수 값은 브라우저 빌드 결과에 포함됩니다. **절대로 service_role 키나 관리자 비밀키를 넣지 않습니다.**
-- RLS·RPC는 접근 통제를 위한 설계이며, 배포된 DB의 실제 권한과 예외 경로까지 별도로 검증해야 합니다.
-- 방명록·RSVP에는 개인정보가 포함될 수 있으므로 공개 저장소에 운영 데이터·비밀번호·실제 키를 업로드하지 않습니다.
-- Supabase 무료 프로젝트의 비활성 일시중지 가능성을 고려해 서비스 운영 중 가용성과 데이터 백업을 점검해야 합니다.
-- 초대장에 노출되는 개인 정보, 연락처, 장소, 사진 등은 공개 범위를 검토해야 합니다.
-
-## 8. 후속 개선
-
-- RSVP 테스트 실행 명령 및 CI 통합
-- RPC와 실제 PostgreSQL 정책을 검증하는 통합 테스트
-- 모바일 성능 측정 및 개선 전후 자료
-- 민감 데이터의 공개 범위와 백업·서비스 가용성 점검
+실제 초대장 콘텐츠에는 연락처나 예식 정보가 포함될 수 있습니다. 공개할 자료와 환경변수는 별도로 확인하고 있으며, `VITE_`로 시작하는 값은 브라우저에 노출된다는 점을 고려해 관리자 비밀키는 사용하지 않습니다.
 
 ---
-[개발자 프로필](https://github.com/Leeeyounghwan) · [프로젝트 소스](https://github.com/Leeeyounghwan/MyWeddingCard)
+
+[GitHub 프로필](https://github.com/Leeeyounghwan)
