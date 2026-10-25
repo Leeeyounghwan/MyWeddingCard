@@ -6,7 +6,7 @@
   padding: 22px 22px 0;
   background: #fbfaf6;
   color: #2f332c;
-  font-family: 'Noto Serif KR', serif;
+  font-family: var(--font-serif);
   overflow: hidden;
 }
 
@@ -36,7 +36,7 @@
 
 .label {
   margin: 0 0 12px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 9px;
   letter-spacing: 0.42em;
   color: #6d7266;
@@ -51,7 +51,7 @@
 
 .amp {
   margin: 0 10px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   color: #8b7664;
@@ -59,13 +59,13 @@
 
 .date {
   margin: 8px 0 0;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-size: 14px;
   letter-spacing: 0.2em;
 }
 
 .time {
-  font-family: 'Noto Serif KR', serif;
+  font-family: var(--font-serif);
   font-size: 11px;
   letter-spacing: 0.04em;
 }

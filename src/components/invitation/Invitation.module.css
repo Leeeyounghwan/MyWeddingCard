@@ -3,6 +3,11 @@
   padding-top: calc(var(--section-y) + 8px);
 }
 
+/* 초대 섹션의 영문 라벨은 둥근 본문 폰트에 맞춰 upright로 표시합니다. */
+.section header > p:first-child {
+  font-style: normal;
+}
+
 .ornament {
   display: flex;
   justify-content: center;

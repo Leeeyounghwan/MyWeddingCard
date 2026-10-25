@@ -22,10 +22,10 @@
   --color-danger: #b0463c;
 
   /* ── Typography ────────────────────────── */
-  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
-    'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif;
-  --font-serif: 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', serif; /* 한글 제목·초대글 */
-  --font-display: 'Cormorant Garamond', 'Noto Serif KR', 'Times New Roman', serif; /* 영문 레터링 */
+  --font-sans: 'NanumSquareRound', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
+    system-ui, sans-serif;
+  --font-serif: 'NanumSquareRound', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-display: 'NanumSquareRound', Arial, sans-serif;
 
   --fs-xs: 0.75rem; /* 12 */
   --fs-sm: 0.8125rem; /* 13 */
