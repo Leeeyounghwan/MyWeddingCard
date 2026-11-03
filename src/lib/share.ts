@@ -67,7 +67,7 @@ async function shareKakao(): Promise<boolean> {
     if (!kakao) return false
     if (!kakao.isInitialized()) kakao.init(KAKAO_SHARE_KEY)
     const url = pageUrl()
-    const imageUrl = new URL(meta.ogImage, `${location.origin}${import.meta.env.BASE_URL}`).href
+    const imageUrl = new URL(meta.kakaoImage, `${location.origin}${import.meta.env.BASE_URL}`).href
     kakao.Share.sendDefault({
       objectType: 'feed',
       content: { title: meta.title, description: meta.description, imageUrl, imageWidth: 1200, imageHeight: 1600, link: { mobileWebUrl: url, webUrl: url } },
