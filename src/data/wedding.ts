@@ -105,8 +105,8 @@ export const media = {
 export const meta = {
   title: '영환🤍은진 결혼식 💍',
   description: '2027.04.25(일) 12:00\n웨스턴팰리스 웨딩, 웨스턴홀',
-  /** 1200×630 JPG/PNG 권장. 카카오톡은 SVG/WebP 를 지원하지 않으니 JPG 나 PNG 를 사용하세요. */
-  ogImage: 'og-image.png', // ✏️ public/og-image.png 교체
+  /** SNS 공유 미리보기에 사용할 사진 */
+  ogImage: 'og-couple.jpg',
   themeColor: '#F8F4EE',
 }
 
