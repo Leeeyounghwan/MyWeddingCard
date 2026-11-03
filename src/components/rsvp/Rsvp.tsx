@@ -66,7 +66,11 @@ export function Rsvp() {
             onClick={() => copyText(rsvpEditUrl(savedKey, pageUrl()), '응답 수정 링크가 복사되었습니다')}>
             응답 수정 링크 복사
           </Button>
-          <p>수정 링크를 보관해 주세요. 링크를 가진 사람은 회신을 조회하고 수정할 수 있습니다.</p>
+          <p>
+            수정 링크를 보관해 주세요.
+            <br />
+            링크를 가진 사람은 회신을 조회하고 수정할 수 있습니다.
+          </p>
           {import.meta.env.DEV && <p>임시 테스트 주소가 종료되면 수정 링크도 사용할 수 없습니다.</p>}
         </div>
       )}

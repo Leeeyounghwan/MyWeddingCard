@@ -275,6 +275,57 @@ begin
 end;
 $$;
 
+-- 방명록 관리자 조회
+create or replace function public.get_guestbook_admin(p_key text)
+returns table (id uuid, name text, message text, created_at timestamptz)
+language plpgsql
+stable
+security definer
+set search_path = ''
+as $$
+declare
+  v_hash text;
+begin
+  select value into v_hash from private.settings where key = 'admin_key_hash';
+  if v_hash is null then
+    raise exception 'ADMIN_NOT_CONFIGURED' using errcode = 'P0001';
+  end if;
+  if p_key is null or extensions.crypt(p_key, v_hash) <> v_hash then
+    raise exception 'ADMIN_DENIED' using errcode = 'P0001';
+  end if;
+
+  return query
+  select g.id, g.name, g.message, g.created_at
+  from public.guestbook g
+  where g.is_visible
+  order by g.created_at desc;
+end;
+$$;
+
+-- 방명록 관리자 삭제 (작성자 비밀번호 없이 관리자 키로 숨김 처리)
+create or replace function public.admin_delete_guestbook(p_key text, p_id uuid)
+returns boolean
+language plpgsql
+volatile
+security definer
+set search_path = ''
+as $$
+declare
+  v_hash text;
+begin
+  select value into v_hash from private.settings where key = 'admin_key_hash';
+  if v_hash is null then
+    raise exception 'ADMIN_NOT_CONFIGURED' using errcode = 'P0001';
+  end if;
+  if p_key is null or extensions.crypt(p_key, v_hash) <> v_hash then
+    raise exception 'ADMIN_DENIED' using errcode = 'P0001';
+  end if;
+
+  update public.guestbook set is_visible = false where id = p_id and is_visible;
+  return found;
+end;
+$$;
+
 -- RSVP 제출 (조회 함수는 제공하지 않음)
 create or replace function public.submit_rsvp(
   p_side text,
@@ -372,12 +423,16 @@ $$;
 revoke all on function public.get_guestbook(int, int) from public;
 revoke all on function public.add_guestbook(text, text, text) from public;
 revoke all on function public.delete_guestbook(uuid, text) from public;
+revoke all on function public.get_guestbook_admin(text) from public;
+revoke all on function public.admin_delete_guestbook(text, uuid) from public;
 revoke all on function public.submit_rsvp(text, text, boolean, int, text, text, text) from public;
 revoke all on function public.get_rsvp_admin(text) from public;
 
 grant execute on function public.get_guestbook(int, int) to anon, authenticated;
 grant execute on function public.add_guestbook(text, text, text) to anon, authenticated;
 grant execute on function public.delete_guestbook(uuid, text) to anon, authenticated;
+grant execute on function public.get_guestbook_admin(text) to anon, authenticated;
+grant execute on function public.admin_delete_guestbook(text, uuid) to anon, authenticated;
 grant execute on function public.submit_rsvp(text, text, boolean, int, text, text, text) to anon, authenticated;
 grant execute on function public.get_rsvp_admin(text) to anon, authenticated;
 

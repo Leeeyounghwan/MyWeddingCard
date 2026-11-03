@@ -1,5 +1,6 @@
 import { getSupabase, isLocalMock, isSupabaseConfigured } from './supabase'
-import { readStorage } from './storage'
+import { readStorage, writeStorage } from './storage'
+import type { GuestbookEntry } from './guestbook'
 
 export interface RsvpRow {
   id: string
@@ -48,4 +49,31 @@ export async function listRsvps(adminKey: string): Promise<RsvpRow[]> {
   const { data, error } = await sb.rpc('get_rsvp_admin', { p_key: adminKey })
   if (error) throw error
   return (data ?? []) as RsvpRow[]
+}
+
+export async function listGuestbookAdmin(adminKey: string): Promise<GuestbookEntry[]> {
+  if (isLocalMock) {
+    const rows = JSON.parse(readStorage('mock-guestbook') ?? '[]') as Array<GuestbookEntry & { pw?: string }>
+    return rows.map(({ pw: _pw, ...entry }) => entry)
+  }
+
+  const sb = await getSupabase()
+  const { data, error } = await sb.rpc('get_guestbook_admin', { p_key: adminKey })
+  if (error) throw error
+  return (data ?? []) as GuestbookEntry[]
+}
+
+export async function deleteGuestbookAdmin(adminKey: string, id: string): Promise<void> {
+  if (isLocalMock) {
+    const rows = JSON.parse(readStorage('mock-guestbook') ?? '[]') as Array<GuestbookEntry & { pw?: string }>
+    const next = rows.filter((entry) => entry.id !== id)
+    if (next.length === rows.length) throw new Error('NOT_FOUND')
+    writeStorage('mock-guestbook', JSON.stringify(next))
+    return
+  }
+
+  const sb = await getSupabase()
+  const { data, error } = await sb.rpc('admin_delete_guestbook', { p_key: adminKey, p_id: id })
+  if (error) throw error
+  if (data === false) throw new Error('NOT_FOUND')
 }
