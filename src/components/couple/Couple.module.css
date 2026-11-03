@@ -20,6 +20,12 @@
   box-shadow: var(--shadow-sm);
 }
 
+.groomPhoto img {
+  object-position: 50% 16%;
+  transform: scale(2);
+  transform-origin: 50% 40%;
+}
+
 .text {
   flex: 1;
   min-width: 0;
