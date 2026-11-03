@@ -106,7 +106,7 @@ export const meta = {
   title: '영환🤍은진 결혼식 💍',
   description: '2027.04.25(일) 12:00\n웨스턴팰리스 호텔 웨딩, 7층 웨스턴홀',
   /** SNS 공유 미리보기에 사용할 사진 */
-  ogImage: 'og-couple-link.jpg',
+  ogImage: 'og-couple-lettered-link.png',
   kakaoImage: 'kakao-couple-names-close.png',
   themeColor: '#F8F4EE',
 }
