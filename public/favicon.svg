@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#fbfaf6"/><circle cx="32" cy="32" r="22" fill="none" stroke="#a8456a" stroke-width="1.5"/><text x="32" y="39" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="20" fill="#2f332c">Y&amp;E</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#fffefa"/>
+  <path d="M32 55C28 51 9 39 9 23C9 15 19 12 25 18L32 25L39 18C45 12 55 15 55 23C55 39 36 51 32 55Z" fill="none" stroke="#e9b2a1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="17" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="35" fill="#c97f78">Y</text>
+  <text x="31" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#c97f78">E</text>
+</svg>
