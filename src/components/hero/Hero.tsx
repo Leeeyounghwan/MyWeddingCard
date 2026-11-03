@@ -1,12 +1,11 @@
 import { m, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion'
 import { useRef } from 'react'
-import { bride, groom, media, venue } from '../../data/wedding'
+import { bride, groom, media } from '../../data/wedding'
 import { asset } from '../../lib/asset'
-import { timeEn, wd, weekdayEn } from '../../lib/date'
+import { wd, weekdayKo } from '../../lib/date'
 import styles from './Hero.module.css'
 
 const EASE = [0.22, 1, 0.36, 1] as const
-const pad = (n: number) => String(n).padStart(2, '0')
 
 const container: Variants = {
   hidden: {},
@@ -16,7 +15,7 @@ const item: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0, transition: { duration: 1.15, ease: EASE } },
 }
-const petals = Array.from({ length: 9 }, (_, i) => i)
+const petals = Array.from({ length: 12 }, (_, i) => i)
 
 /**
  * 메인 히어로 — 사진 한 장으로 몰입감 있게.
@@ -38,8 +37,9 @@ export function Hero() {
           fetchPriority="high"
           decoding="async"
           draggable={false}
+          style={{ transformOrigin: 'center 75%' }}
           initial={{ scale: 1.16, opacity: 0.92 }}
-          animate={{ scale: 1, opacity: 1 }}
+          animate={{ scale: 1.28, opacity: 1 }}
           transition={{ duration: 3.6, ease: EASE }}
         />
       </m.div>
@@ -53,68 +53,25 @@ export function Hero() {
       )}
 
       <m.div className={styles.inner} style={{ opacity: textOpacity }}>
-        <m.p
-          className={styles.top}
-          initial={{ opacity: 0, y: -8, letterSpacing: '0.6em' }}
-          animate={{ opacity: 1, y: 0, letterSpacing: '0.42em' }}
-          transition={{ duration: 1.45, delay: 0.25, ease: EASE }}
-        >
-          Wedding Invitation
-        </m.p>
-
         <m.div className={styles.bottom} variants={container} initial="hidden" animate="show">
-          <h1 className={styles.names}>
-            <m.span variants={item} className={styles.name}>
-              {groom.nameEn}
-            </m.span>
-            <m.span variants={item} className={styles.name}>
-              <em className={styles.amp} aria-hidden="true">
-                &amp;
-              </em>
-              <span className="sr-only">그리고 </span>
-              {bride.nameEn}
-            </m.span>
-          </h1>
-
-          <m.span variants={item} className={styles.rule} aria-hidden="true" />
-
-          <m.p variants={item} className={styles.korean}>
-            {groom.name}
-            <span className={styles.dot} aria-hidden="true">
-              ·
-            </span>
-            {bride.name}
-          </m.p>
-
           <m.dl variants={item} className={styles.meta}>
             <div>
               <dt className="sr-only">예식일</dt>
-              <dd>
-                {wd.year}. {pad(wd.month)}. {pad(wd.day)} {weekdayEn}
-                {timeEn && <span className={styles.time}> {timeEn}</span>}
+              <dd className={styles.dateKo}>
+                {wd.year}년 {wd.month}월 {wd.day}일 {weekdayKo}요일 {wd.hour < 12 ? '오전' : '오후'}{' '}
+                {wd.hour % 12 || 12}시
               </dd>
             </div>
             <div>
               <dt className="sr-only">예식장</dt>
               <dd className={styles.venue}>
-                {venue.nameEn}, {venue.cityEn}
+                <strong className={styles.venueStrong}>웨스턴팰리스 호텔 웨딩</strong>
               </dd>
             </div>
           </m.dl>
         </m.div>
       </m.div>
 
-      <m.a
-        href="#invitation"
-        className={styles.scroll}
-        aria-label="아래로 스크롤"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.85, delay: 2.75, ease: EASE }}
-      >
-        <span>Scroll</span>
-        <span className={styles.scrollLine} aria-hidden="true" />
-      </m.a>
     </section>
   )
 }

@@ -9,16 +9,22 @@
 }
 
 .ornament {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
-  margin: calc(var(--space-7) * -1 + 8px) 0 var(--space-7);
+  margin: 0;
+  pointer-events: none;
 }
 
-.ornament span {
+.flower {
+  width: 52px;
+  height: 52px;
   display: block;
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(var(--color-line), var(--color-accent));
+  overflow: visible;
+  color: var(--color-accent-strong);
 }
 
 .letter {

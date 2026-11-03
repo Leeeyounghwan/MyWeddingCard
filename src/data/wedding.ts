@@ -91,9 +91,9 @@ export const ending = {
 
 export const media = {
   /** 메인 히어로 사진 (세로형 권장, 1200×1800 내외 WebP) */
-  heroImage: 'images/hero-generated.png', // ✏️
+  heroImage: 'images/hero.jpg', // ✏️
   /** 청첩장 이미지 저장에 쓰일 사진 (비우면 heroImage 사용) */
-  cardImage: 'images/hero-generated.png',
+  cardImage: 'images/hero.jpg',
   /** 배경음악. public/audio/bgm.mp3 파일을 넣으면 자동으로 동작합니다. */
   bgm: {
     src: 'audio/bgm.mp3',

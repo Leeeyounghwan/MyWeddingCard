@@ -11,7 +11,7 @@
 
 .media {
   position: absolute;
-  inset: 0 0 -18% 0; /* 패럴랙스 이동분 여유 */
+  inset: 0;
   will-change: transform;
 }
 
@@ -19,7 +19,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 60%;
 }
 
 .shade {
@@ -118,6 +118,27 @@
   --delay: -10s;
 }
 
+.petal:nth-child(10) {
+  --x: 26%;
+  --size: 5px;
+  --duration: 23s;
+  --delay: -16s;
+}
+
+.petal:nth-child(11) {
+  --x: 63%;
+  --size: 7px;
+  --duration: 20s;
+  --delay: -6s;
+}
+
+.petal:nth-child(12) {
+  --x: 84%;
+  --size: 5px;
+  --duration: 24s;
+  --delay: -18s;
+}
+
 .inner {
   position: relative;
   z-index: 2;
@@ -125,7 +146,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(var(--space-7) + env(safe-area-inset-top)) var(--gutter) calc(var(--space-10) - 8px);
+  padding: calc(var(--space-7) + env(safe-area-inset-top)) var(--gutter)
+    calc(var(--space-5) + env(safe-area-inset-bottom));
 }
 
 .top {
@@ -139,24 +161,31 @@
 }
 
 .bottom {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 28px;
   text-shadow: 0 1px 18px rgba(0, 0, 0, 0.18);
 }
 
 .names {
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(2.75rem, 13.5vw, 3.6rem);
+  font-size: clamp(1.6rem, 7.6vw, 2.5rem);
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .name {
-  display: block;
+  display: inline;
 }
 
 .name + .name {
-  padding-left: 0.9em;
-  margin-top: 4px;
+  padding-left: 0.18em;
 }
 
 .amp {
@@ -187,22 +216,34 @@
 }
 
 .meta {
-  margin-top: var(--space-2);
+  margin: auto 0 0;
   font-family: var(--font-display);
   font-size: 0.9375rem;
   letter-spacing: 0.14em;
   line-height: 1.7;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .venue {
-  font-size: 0.75rem;
+  font-size: inherit;
   letter-spacing: 0.22em;
   opacity: 0.88;
 }
 
 .time {
   white-space: nowrap;
+}
+
+.dateKo {
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+}
+
+.venueStrong {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.12em;
 }
 
 .scroll {
