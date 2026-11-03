@@ -1,42 +1,14 @@
-import { m, useReducedMotion } from 'framer-motion'
 import { ImageDown, Link2, Share2 } from 'lucide-react'
 import { lazy, Suspense } from 'react'
 import { bride, ending, groom } from '../../data/wedding'
 import { useDisclosure } from '../../hooks/useDisclosure'
 import { dotDate } from '../../lib/date'
-import { viewportOnce } from '../../lib/motion'
 import { copyText, pageUrl, shareInvitation } from '../../lib/share'
 import { Photo } from '../common/Photo'
 import { Reveal, RevealGroup, RevealItem } from '../common/Reveal'
 import styles from './Ending.module.css'
 
 const CardSheet = lazy(() => import('../share/CardSheet'))
-
-/** 글자가 한 자씩 떠오르는 레터링 */
-function Lettering({ text }: { text: string }) {
-  const reduce = useReducedMotion()
-  return (
-    <m.p
-      className={styles.lettering}
-      aria-label={text}
-      initial="hidden"
-      whileInView="show"
-      viewport={viewportOnce}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.045, delayChildren: 0.2 } } }}
-    >
-      {Array.from(text).map((ch, i) => (
-        <m.span
-          key={i}
-          aria-hidden="true"
-          variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {ch === ' ' ? ' ' : ch}
-        </m.span>
-      ))}
-    </m.p>
-  )
-}
 
 /** 마지막 장면 — 사진 위 레터링 + 공유/저장 */
 export function Ending() {
@@ -48,8 +20,7 @@ export function Ending() {
         <Photo src={ending.photo} alt="" className={styles.photo} />
         <div className={styles.shade} aria-hidden="true" />
         <div className={styles.overlay}>
-          <Lettering text={ending.eyebrow} />
-          <Reveal as="p" className={styles.date} delay={0.9} variant="fade">
+          <Reveal as="p" className={styles.date} variant="fade">
             {dotDate}
           </Reveal>
         </div>
@@ -90,7 +61,11 @@ export function Ending() {
         </Reveal>
 
         <p className={styles.footer}>
-          {groom.nameEn} &amp; {bride.nameEn} — {dotDate}
+          <span className={styles.logoMark} aria-hidden="true">
+            <span className={styles.logoY}>Y</span>
+            <span className={styles.logoE}>E</span>
+          </span>
+          <span className={styles.copyright}>© {groom.nameEn} &amp; {bride.nameEn}</span>
         </p>
       </div>
 

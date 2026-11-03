@@ -5,6 +5,9 @@ import type { GalleryImage } from '../../data/types'
 import { asset } from '../../lib/asset'
 import styles from './Carousel.module.css'
 
+const SLIDE_DURATION = 0.7
+const SLIDE_DURATION_MS = SLIDE_DURATION * 1000
+
 /**
  * 웨딩화보 캐러셀 — 그리드가 아닌 한 번에 한 장만 보여주고 좌우로 스와이프해서 넘깁니다.
  * 사진 보호를 위해 드래그·우클릭 저장·핀치 확대를 막아둡니다 (styles/global.css, index.html 참고).
@@ -17,6 +20,9 @@ export function Carousel({ images }: { images: GalleryImage[] }) {
   const frameRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const destinationRef = useRef<HTMLImageElement>(null)
+  const thumbRefs = useRef<Array<HTMLButtonElement | null>>([])
+  const thumbsRef = useRef<HTMLDivElement>(null)
+  const thumbScrollFrame = useRef<number | null>(null)
   const request = useRef(0)
   const reducedMotion = useReducedMotion()
   const moving = useRef(false)
@@ -33,7 +39,37 @@ export function Carousel({ images }: { images: GalleryImage[] }) {
   useEffect(() => () => {
     request.current += 1
     dragX.stop()
+    if (thumbScrollFrame.current !== null) cancelAnimationFrame(thumbScrollFrame.current)
   }, [dragX])
+
+  useEffect(() => {
+    const thumbs = thumbsRef.current
+    const thumb = thumbRefs.current[selectedIndex]
+    if (!thumbs || !thumb) return
+
+    if (thumbScrollFrame.current !== null) cancelAnimationFrame(thumbScrollFrame.current)
+
+    const start = thumbs.scrollLeft
+    const maxScroll = thumbs.scrollWidth - thumbs.clientWidth
+    const destination = Math.max(
+      0,
+      Math.min(maxScroll, thumb.offsetLeft - (thumbs.clientWidth - thumb.offsetWidth) / 2),
+    )
+    if (reducedMotion || Math.abs(destination - start) < 1) {
+      thumbs.scrollLeft = destination
+      return
+    }
+
+    const startedAt = performance.now()
+    const ease = (value: number) => value * value * (3 - 2 * value)
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - startedAt) / SLIDE_DURATION_MS)
+      thumbs.scrollLeft = start + (destination - start) * ease(progress)
+      if (progress < 1) thumbScrollFrame.current = requestAnimationFrame(tick)
+      else thumbScrollFrame.current = null
+    }
+    thumbScrollFrame.current = requestAnimationFrame(tick)
+  }, [reducedMotion, selectedIndex])
 
   useLayoutEffect(() => {
     if (!target) return
@@ -44,7 +80,7 @@ export function Carousel({ images }: { images: GalleryImage[] }) {
       if (cancelled) return
       const width = frameRef.current?.clientWidth ?? 0
       const animation = animate(dragX, -target.dir * width, {
-        duration: reducedMotion ? 0 : 0.7,
+        duration: reducedMotion ? 0 : SLIDE_DURATION,
         ease: [0.4, 0, 0.2, 1],
         onComplete: () => {
           setIndex(target.index)
@@ -209,10 +245,15 @@ export function Carousel({ images }: { images: GalleryImage[] }) {
             <span className={styles.slash}>/</span>
             <span>{count}</span>
           </p>
-          <div className={styles.thumbs} aria-label="갤러리 사진 선택">
+          <div
+            ref={thumbsRef}
+            className={styles.thumbs}
+            aria-label="갤러리 사진 선택"
+          >
             {images.map((thumb, i) => (
               <button
                 key={thumb.src}
+                ref={(element) => { thumbRefs.current[i] = element }}
                 type="button"
                 className={styles.thumb}
                 data-active={i === selectedIndex || undefined}

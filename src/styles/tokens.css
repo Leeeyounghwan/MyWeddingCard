@@ -4,20 +4,20 @@
  */
 :root {
   /* ── Color (Spring) ─────────────────────── */
-  --color-background: #fffdf9; /* Clean warm white — 페이지 바탕 */
-  --color-surface: #f7f1e8; /* Light beige — 달력·카드 바탕 */
-  --color-surface-strong: #eee5d8;
+  --color-background: #fffefa; /* Clean ivory — 페이지 바탕 */
+  --color-surface: #fff9f5; /* Cream ivory — 달력·카드 바탕 */
+  --color-surface-strong: #f8ebe5;
   --color-paper: #ffffff; /* Clean white — 폼/시트 바탕 */
   --color-primary: #6f6558; /* Soft taupe — 버튼·강조 */
   --color-primary-contrast: #ffffff;
   --color-text: #332f2a; /* 본문 */
   --color-text-muted: #756f66; /* 보조 텍스트 */
   --color-text-soft: #b5aa9d; /* 장식용 라벨 */
-  --color-accent: #eadcc9; /* Warm beige — 장식 */
-  --color-accent-strong: #8b7664; /* Taupe — 텍스트용 */
-  --color-line: #e9dfd1; /* 구분선 */
+  --color-accent: #e9b2a1; /* Dusty peach — 사랑스러운 포인트 */
+  --color-accent-strong: #c97f78; /* Rose brown — 따뜻한 강조 */
+  --color-line: #f1ddd5; /* Peach-tinted divider */
   --color-ink: #24211d; /* 히어로 배경 */
-  --color-outer: #f7f3ef; /* 데스크톱에서 모바일 영역 바깥 */
+  --color-outer: #f6f0eb; /* 데스크톱에서 모바일 영역 바깥 */
   --color-overlay: rgba(36, 33, 29, 0.46);
   --color-danger: #b0463c;
 

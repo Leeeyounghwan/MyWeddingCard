@@ -14,7 +14,7 @@ interface SectionProps {
   flush?: boolean
 }
 
-/** 모든 본문 섹션의 공통 틀: 영문 이탤릭 라벨 + 한글 세리프 제목 + 순차 등장 */
+/** 모든 본문 섹션의 공통 틀: 영문 라벨 + 한글 세리프 제목 + 순차 등장 */
 export function Section({ id, eyebrow, title, description, children, tone = 'default', className, flush }: SectionProps) {
   const headingId = useId()
   return (
