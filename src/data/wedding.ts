@@ -54,8 +54,8 @@ export const ceremony: Ceremony = {
 }
 
 export const venue: Venue = {
-  name: '웨스턴팰리스웨딩',
-  nameEn: 'Western Palace Wedding',
+  name: '웨스턴팰리스 호텔 웨딩',
+  nameEn: 'Western Palace Hotel Wedding',
   hall: '7층 웨스턴홀',
   address: '인천 부평구 부평대로278번길 16',
   addressDetail: '갈산역 2번 출구 앞',
@@ -104,9 +104,9 @@ export const media = {
 /** 카카오톡 · SNS 공유 미리보기 (빌드 시 index.html 메타태그로 들어갑니다) */
 export const meta = {
   title: '영환🤍은진 결혼식 💍',
-  description: '2027.04.25(일) 12:00\n웨스턴팰리스 웨딩, 웨스턴홀',
+  description: '2027.04.25(일) 12:00\n웨스턴팰리스 호텔 웨딩, 7층 웨스턴홀',
   /** SNS 공유 미리보기에 사용할 사진 */
-  ogImage: 'og-couple.jpg',
+  ogImage: 'og-couple-padded.jpg',
   themeColor: '#F8F4EE',
 }
 

@@ -14,7 +14,7 @@ declare global {
       Share: {
         sendDefault(options: {
           objectType: 'feed'
-          content: { title: string; description: string; imageUrl: string; link: { mobileWebUrl: string; webUrl: string } }
+          content: { title: string; description: string; imageUrl: string; imageWidth: number; imageHeight: number; link: { mobileWebUrl: string; webUrl: string } }
           buttons: { title: string; link: { mobileWebUrl: string; webUrl: string } }[]
         }): void
       }
@@ -70,7 +70,7 @@ async function shareKakao(): Promise<boolean> {
     const imageUrl = new URL(meta.ogImage, `${location.origin}${import.meta.env.BASE_URL}`).href
     kakao.Share.sendDefault({
       objectType: 'feed',
-      content: { title: meta.title, description: meta.description, imageUrl, link: { mobileWebUrl: url, webUrl: url } },
+      content: { title: meta.title, description: meta.description, imageUrl, imageWidth: 1200, imageHeight: 1600, link: { mobileWebUrl: url, webUrl: url } },
       buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: url, webUrl: url } }],
     })
     return true
