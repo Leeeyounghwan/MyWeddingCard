@@ -41,7 +41,11 @@ export function Ending() {
           ))}
         </Reveal>
 
-        <Reveal className={styles.actions} delay={0.3}>
+        <Reveal className={styles.madeWithHeart} delay={0.3}>
+          이 청첩장은 신랑, 신부가 마음을 담아 직접 구현한 청첩장입니다.
+        </Reveal>
+
+        <Reveal className={styles.actions} delay={0.38}>
           <button type="button" className={styles.action} onClick={() => void shareInvitation()}>
             <Share2 size={18} strokeWidth={1.25} aria-hidden="true" />
             <span>청첩장 공유하기</span>
