@@ -74,8 +74,8 @@ export const timeEn = (() => {
   return `${ampm} ${h}:${pad(wd.minute)}`
 })()
 
-/** 2027년 4월 25일 일요일 [12:30] */
-export const fullDateKo = `${wd.year}년 ${wd.month}월 ${wd.day}일 ${weekdayKo}요일${timeKo ? ` ${timeKo}` : ''}`
+/** 2027년 4월 25일 일요일 [오후 12시] */
+export const fullDateKo = `${wd.year}년 ${wd.month}월 ${wd.day}일 ${weekdayKo}요일${timeKo ? ` ${wd.hour < 12 ? '오전' : '오후'} ${wd.hour % 12 === 0 ? 12 : wd.hour % 12}시` : ''}`
 
 export const weddingStart = weddingDate.getTime()
 /** 시간이 미정이면 예식 당일 자정까지를 '진행 중'으로 봅니다. */

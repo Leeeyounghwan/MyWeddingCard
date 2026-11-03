@@ -9,7 +9,7 @@ function Profile({ person, role, align }: { person: Person; role: 'Groom' | 'Bri
   const profile = person.profile?.filter((p) => p.label && p.value) ?? []
   return (
     <article className={styles.person} data-align={align}>
-      <ImageReveal className={styles.photo}>
+      <ImageReveal className={styles.photo} from="top">
         <Photo src={person.photo} alt={`${role === 'Groom' ? '신랑' : '신부'} ${person.name}`} ratio={3 / 4} />
       </ImageReveal>
       <RevealGroup className={styles.text} stagger={0.1} delay={0.2}>

@@ -91,11 +91,17 @@ export function ImageReveal({
   children: ReactNode
   className?: string
   delay?: number
-  from?: 'bottom' | 'center' | 'left'
+  from?: 'bottom' | 'top' | 'center' | 'left'
 }) {
   const reduce = useReducedMotion()
   const hiddenClip =
-    from === 'center' ? 'inset(10% 10% 10% 10%)' : from === 'left' ? 'inset(0% 100% 0% 0%)' : 'inset(100% 0% 0% 0%)'
+    from === 'center'
+      ? 'inset(10% 10% 10% 10%)'
+      : from === 'left'
+        ? 'inset(0% 100% 0% 0%)'
+        : from === 'top'
+          ? 'inset(0% 0% 100% 0%)'
+          : 'inset(100% 0% 0% 0%)'
   return (
     <m.div
       className={className}
