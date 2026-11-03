@@ -13,6 +13,8 @@ export function MusicButton({ visible }: { visible: boolean }) {
   const playing = status === 'playing'
   const [hint, setHint] = useState(false)
 
+  useEffect(() => music.startAutoplay(), [])
+
   // 인트로 없이 들어온 경우(재방문 등) 음악을 켤 수 있다는 힌트를 잠깐 표시
   useEffect(() => {
     if (!visible || status !== 'idle') return
@@ -47,6 +49,7 @@ export function MusicButton({ visible }: { visible: boolean }) {
             )}
           </AnimatePresence>
           <button
+            data-music-control
             type="button"
             className={styles.button}
             onClick={() => {

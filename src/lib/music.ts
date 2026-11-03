@@ -5,8 +5,7 @@ import { readStorage, writeStorage } from './storage'
 
 /**
  * 배경음악 컨트롤러.
- * - 오디오는 첫 재생 시점에 생성되어(preload 없음) 초기 로딩에 영향을 주지 않습니다.
- * - 모바일 자동재생 정책 때문에 반드시 사용자 클릭(초대장 열기 등) 안에서 play() 를 호출합니다.
+ * - 접속 시 자동재생을 시도하고, 차단되면 첫 사용자 입력에서 다시 시도합니다.
  * - 사용자가 직접 끈 경우 localStorage 에 기억하여 다음 방문 때 자동 재생하지 않습니다.
  */
 export type MusicStatus = 'idle' | 'playing' | 'paused' | 'unavailable'
@@ -61,6 +60,26 @@ function pause() {
 export const music = {
   play,
   pause,
+  startAutoplay() {
+    if (music.userMuted || status === 'unavailable') return () => {}
+    const cleanup = () => {
+      document.removeEventListener('touchend', retry, true)
+      document.removeEventListener('pointerup', retry, true)
+      document.removeEventListener('click', retry, true)
+      document.removeEventListener('keydown', retry, true)
+    }
+    const retry = (event: Event) => {
+      if (event.target instanceof Element && event.target.closest('[data-music-control]')) return
+      if (music.userMuted || status === 'playing') { cleanup(); return }
+      void play().then((started) => { if (started) cleanup() })
+    }
+    document.addEventListener('touchend', retry, true)
+    document.addEventListener('pointerup', retry, true)
+    document.addEventListener('click', retry, true)
+    document.addEventListener('keydown', retry, true)
+    void play().then((started) => { if (started) cleanup() })
+    return cleanup
+  },
   toggle() {
     if (status === 'playing') pause()
     else void play()
