@@ -63,14 +63,18 @@ export const music = {
   startAutoplay() {
     if (music.userMuted || status === 'unavailable') return () => {}
     const cleanup = () => {
+      document.removeEventListener('touchend', retry, true)
+      document.removeEventListener('pointerup', retry, true)
       document.removeEventListener('click', retry, true)
       document.removeEventListener('keydown', retry, true)
     }
     const retry = (event: Event) => {
       if (event.target instanceof Element && event.target.closest('[data-music-control]')) return
-      cleanup()
-      if (!music.userMuted && status !== 'playing') void play()
+      if (music.userMuted || status === 'playing') { cleanup(); return }
+      void play().then((started) => { if (started) cleanup() })
     }
+    document.addEventListener('touchend', retry, true)
+    document.addEventListener('pointerup', retry, true)
     document.addEventListener('click', retry, true)
     document.addEventListener('keydown', retry, true)
     void play().then((started) => { if (started) cleanup() })

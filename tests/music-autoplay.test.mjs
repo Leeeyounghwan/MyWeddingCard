@@ -25,11 +25,15 @@ test('allowed autoplay removes fallback listeners', async () => {
   assert.equal(state.handlers.size, 0)
 })
 
-test('blocked autoplay retries once on interaction', async () => {
+test('blocked autoplay keeps retrying on touch and click', async () => {
   const state = setup()
   await Promise.resolve()
   state.handlers.get('click')({ target: null })
   assert.equal(state.calls(), 2)
+  await Promise.resolve()
+  state.handlers.get('touchend')({ target: null })
+  assert.equal(state.calls(), 3)
+  state.cleanup()
   assert.equal(state.handlers.size, 0)
 })
 
