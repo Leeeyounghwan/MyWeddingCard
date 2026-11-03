@@ -312,4 +312,4 @@ export const ceremony = {
 - `og:image` 는 절대 URL 이 필요합니다. GitHub Actions 로 배포하면 자동으로 설정되지만, 로컬에서 빌드해 다른 곳에 올린다면 `VITE_SITE_URL` 을 설정하세요.
 
 ### 카카오 공유 앱 아이콘
-카카오디벨로퍼스의 앱 → 일반 → 앱 기본 정보에서 앱 아이콘을 public/kakao-app-icon-ye.png로 등록합니다. 공유 메시지 하단의 APP 아이콘은 소스 코드가 아닌 해당 앱 설정을 사용합니다.
+카카오디벨로퍼스의 앱 → 일반 → 앱 기본 정보에서 앱 아이콘을 public/kakao-app-icon-ye.jpg로 등록합니다. 공유 메시지 하단의 APP 아이콘은 소스 코드가 아닌 해당 앱 설정을 사용합니다.
