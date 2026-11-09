@@ -1,9 +1,9 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv, type Plugin } from 'vite'
-import { media, meta } from './src/data/wedding.ts'
+import { media, meta } from './src/data/site.ts'
 
 /**
- * index.html 의 __OG_TITLE__ 등 자리표시자를 src/data/wedding.ts 의 값으로 치환합니다.
+ * index.html 의 __OG_TITLE__ 등 자리표시자를 src/data/site.ts 의 값으로 치환합니다.
  * 카카오톡은 og:image 에 절대 URL 이 필요하므로 VITE_SITE_URL(배포 주소)을 사용합니다.
  */
 function htmlMeta(siteUrl: string, base: string): Plugin {

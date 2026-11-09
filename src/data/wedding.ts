@@ -2,25 +2,26 @@
  * ─────────────────────────────────────────────────────────────
  *  💍 청첩장 핵심 정보 — 대부분의 수정은 이 파일에서 합니다.
  * ─────────────────────────────────────────────────────────────
- *  - 신랑/신부/혼주 이름 · 연락처        → groom, bride
+ *  - 신랑/신부/혼주 이름                 → groom, bride
+ *  - 연락처                               → .env.local / GitHub Actions Secrets
  *  - 예식 일시                            → ceremony
  *  - 예식장                               → venue
  *  - 초대 문구                            → invitation
- *  - 대표 사진 · 배경음악 · 공유 문구     → media, meta
+ *  - 대표 사진 · 배경음악 · 공유 문구     → site.ts 의 media, meta
  *  - 섹션 표시 여부                       → features
  *
  *  빈 문자열('')로 둔 값은 화면에서 자동으로 숨겨지거나 '등록 예정'으로 표시됩니다.
- *  이 파일은 vite.config.ts 에서도 읽어 OG 메타태그를 만들므로
- *  다른 파일을 import 하지 마세요(타입 import 는 괜찮습니다).
  */
 import type { Ceremony, Person, Venue } from './types.ts'
+
+export { media, meta } from './site'
 
 export const groom: Person = {
   name: '이영환',
   firstName: '영환',
   nameEn: 'Young Hwan',
   relation: '아들', // ✏️ 예: '장남', '차남'
-  phone: '010-3260-3531', // ✏️ 예: '010-0000-0000'
+  phone: import.meta.env.VITE_GROOM_PHONE ?? '',
   photo: 'images/couple/groom-12.jpg', // ✏️ public/images/couple/ 에 사진을 넣고 경로 변경
   intro: '', // ✏️ 한 줄 소개 (선택)
   profile: [
@@ -28,8 +29,8 @@ export const groom: Person = {
     // { label: 'MBTI', value: 'INFJ' },
     // { label: '직업', value: '개발자' },
   ],
-  father: { name: '', phone: '' }, // ✏️ 신랑 아버지
-  mother: { name: '', phone: '' }, // ✏️ 신랑 어머니
+  father: { name: '', phone: import.meta.env.VITE_GROOM_FATHER_PHONE ?? '' }, // ✏️ 신랑 아버지
+  mother: { name: '', phone: import.meta.env.VITE_GROOM_MOTHER_PHONE ?? '' }, // ✏️ 신랑 어머니
 }
 
 export const bride: Person = {
@@ -37,12 +38,12 @@ export const bride: Person = {
   firstName: '은진',
   nameEn: 'Eun Jin',
   relation: '딸', // ✏️ 예: '장녀', '차녀'
-  phone: '010-2529-7816',
+  phone: import.meta.env.VITE_BRIDE_PHONE ?? '',
   photo: 'images/couple/bride-11.jpg',
   intro: '',
   profile: [],
-  father: { name: '', phone: '' }, // ✏️ 신부 아버지
-  mother: { name: '', phone: '' }, // ✏️ 신부 어머니
+  father: { name: '', phone: import.meta.env.VITE_BRIDE_FATHER_PHONE ?? '' }, // ✏️ 신부 아버지
+  mother: { name: '', phone: import.meta.env.VITE_BRIDE_MOTHER_PHONE ?? '' }, // ✏️ 신부 어머니
 }
 
 export const ceremony: Ceremony = {
@@ -87,28 +88,6 @@ export const ending = {
   eyebrow: 'Our New Beginning',
   lines: ['귀한 걸음으로', '저희의 시작을 함께해 주세요.'],
   photo: 'images/ending/moment-02.jpg', // ✏️ 엔딩 배경 사진
-}
-
-export const media = {
-  /** 메인 히어로 사진 (세로형 권장, 1200×1800 내외 WebP) */
-  heroImage: 'images/hero.jpg', // ✏️
-  /** 청첩장 이미지 저장에 쓰일 사진 (비우면 heroImage 사용) */
-  cardImage: 'images/hero.jpg',
-  /** 배경음악. public/audio/bgm.mp3 파일을 넣으면 자동으로 동작합니다. */
-  bgm: {
-    src: 'audio/bgm.mp3',
-    volume: 0.45,
-  },
-}
-
-/** 카카오톡 · SNS 공유 미리보기 (빌드 시 index.html 메타태그로 들어갑니다) */
-export const meta = {
-  title: '영환🤍은진 결혼식 💍',
-  description: '2027.04.25(일) 12:00\n웨스턴팰리스 호텔 웨딩, 7층 웨스턴홀',
-  /** SNS 공유 미리보기에 사용할 사진 */
-  ogImage: 'og-couple-wide-large-title-v2.png',
-  kakaoImage: 'kakao-couple-names-close.png',
-  themeColor: '#F8F4EE',
 }
 
 /** 섹션 표시 여부 / 동작 옵션 */

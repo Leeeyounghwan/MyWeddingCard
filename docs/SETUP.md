@@ -213,12 +213,12 @@ cp .env.example .env
 
 | 위치 | 파일 | 설정 |
 | --- | --- | --- |
-| 메인 | `public/images/hero.webp` (세로 2:3) | `wedding.ts → media.heroImage` |
+| 메인 | `public/images/hero.webp` (세로 2:3) | `site.ts → media.heroImage` |
 | 엔딩 | `public/images/ending.webp` | `wedding.ts → ending.photo` |
 | 신랑/신부 | `public/images/couple/groom.webp`, `bride.webp` (3:4) | `wedding.ts → groom.photo / bride.photo` |
 | 갤러리 | `public/images/gallery/01.webp …` | `gallery.ts` (src, width, height, alt) |
-| 저장용 카드 | 비우면 hero 사용 | `wedding.ts → media.cardImage` |
-| 공유 미리보기 | `public/og-image.png` 또는 `.jpg` (1200×630) | `wedding.ts → meta.ogImage` |
+| 저장용 카드 | 비우면 hero 사용 | `site.ts → media.cardImage` |
+| 공유 미리보기 | `public/og-image.png` 또는 `.jpg` (1200×630) | `site.ts → meta.ogImage` |
 
 - 갤러리 목록은 `gallery.ts` 의 `placeholder(...)` 대신 `{ src: 'images/gallery/01.webp', width: 1200, height: 1600, alt: '...' }` 형식으로 적습니다.
 - 임시 SVG 파일은 교체가 끝나면 삭제해도 됩니다.
@@ -229,17 +229,17 @@ cp .env.example .env
 `public/audio/bgm.mp3` 에 파일을 넣으면 됩니다. 파일이 없으면 음악 버튼이 자동으로 숨겨집니다.
 
 - 권장: 128kbps 이하, 3MB 이내, 저작권 문제가 없는 음원
-- 볼륨 조절: `wedding.ts → media.bgm.volume` (0~1)
+- 볼륨 조절: `site.ts → media.bgm.volume` (0~1)
 - 음악을 완전히 끄려면: `features.music = false`
 
 ## 12. 신랑/신부 정보 수정
 
 `src/data/wedding.ts`
 
-- `groom` / `bride`: 이름, 영문 이름, 관계(장남·차녀 등), 연락처, 사진, 한 줄 소개, `profile`(MBTI · 직업 등)
-- `father` / `mother`: 혼주 성함과 연락처. 고인이면 `deceased: true`. 이름이 비어 있으면 '신랑 이영환' 형식으로 표시됩니다.
+- `groom` / `bride`: 이름, 영문 이름, 관계(장남·차녀 등), 사진, 한 줄 소개, `profile`(MBTI · 직업 등). 연락처는 환경변수에서 읽습니다.
+- `father` / `mother`: 혼주 성함. 연락처는 환경변수에서 읽습니다. 고인이면 `deceased: true`. 이름이 비어 있으면 '신랑 이영환' 형식으로 표시됩니다.
 - `invitation.lines`: 초대 문구. 빈 문자열은 문단 사이의 간격이 됩니다.
-- `meta`: 카카오톡 공유 제목과 설명
+- `src/data/site.ts → meta`: 카카오톡 공유 제목과 설명
 - `features`: 섹션 on/off, RSVP 마감일
 
 ## 13. 예식 시간 수정
@@ -257,8 +257,8 @@ export const ceremony = {
 
 ## 14. 계좌번호 · 연락처 등록 위치
 
-- 계좌번호: `src/data/accounts.ts` 의 `bank`, `number`, `holder`, 선택 항목인 `kakaoPayUrl`. 비어 있으면 '등록 예정'으로 표시되고 복사 버튼이 비활성화됩니다.
-- 연락처: `src/data/wedding.ts` 의 `groom.phone`, `groom.father.phone` 등. 비어 있으면 '등록 예정'으로 표시됩니다.
+- 연락처·계좌 정보: `.env.example` 의 `VITE_GROOM_*`, `VITE_BRIDE_*` 항목을 로컬의 `.env.local` 과 같은 이름의 GitHub Actions Secrets 에 등록합니다. 로컬 환경변수 수정 후에는 개발 서버를 재시작하고, GitHub Secrets 수정 후에는 배포 Actions 를 다시 실행합니다.
+- 계좌는 은행명 또는 계좌번호가 비어 있으면 '등록 예정'으로 표시되고 복사 버튼이 비활성화됩니다. 연락처가 없는 신랑·신부는 '등록 예정'으로 표시되며, 혼주는 성함과 연락처가 모두 비어 있으면 숨겨집니다.
 - 교통 · 주차: `src/data/transportation.ts`
 - 안내 사항: `src/data/information.ts`
 

@@ -51,7 +51,7 @@ function Group({ title, items }: { title: string; items: ContactRow[] }) {
   )
 }
 
-/** 신랑 · 신부 · 혼주 연락처 (tel: / sms: 링크). 번호는 data/wedding.ts 에서 입력합니다. */
+/** 신랑 · 신부 · 혼주 연락처 (tel: / sms: 링크). 번호는 환경변수에서 읽습니다. */
 export default function ContactSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <Sheet open={open} onClose={onClose} eyebrow="Contact" title="축하 인사 전하기">
