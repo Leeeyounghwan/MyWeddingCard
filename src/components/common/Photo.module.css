@@ -1,6 +1,7 @@
 .frame {
   position: relative;
   overflow: hidden;
+  touch-action: pan-x pan-y;
   background: linear-gradient(135deg, var(--color-surface), var(--color-surface-strong));
 }
 
@@ -11,7 +12,6 @@
   opacity: 0;
   transition: opacity 0.8s var(--ease-out);
   -webkit-user-drag: none;
-  -webkit-touch-callout: default;
 }
 
 .frame[data-loaded] img {

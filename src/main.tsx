@@ -13,13 +13,15 @@ if (inAppBrowser) {
 }
 
 /**
- * 데스크톱 우클릭 '이미지 저장/복사'를 막습니다. (모바일 길게 누르기는 CSS -webkit-touch-callout 로 처리)
+ * 이미지 우클릭 저장·복사와 드래그를 막습니다. (모바일 길게 누르기는 CSS -webkit-touch-callout 로 처리)
  * '청첩장 이미지 저장' 결과물처럼 저장을 허용해야 하는 이미지는 data-allow-save 로 예외 처리합니다.
  */
-document.addEventListener('contextmenu', (e) => {
-  const target = e.target as HTMLElement | null
-  if (target?.tagName === 'IMG' && !target.closest('[data-allow-save]')) e.preventDefault()
-})
+for (const eventName of ['contextmenu', 'dragstart']) {
+  document.addEventListener(eventName, (e) => {
+    const target = e.target as HTMLElement | null
+    if (target?.tagName === 'IMG' && !target.closest('[data-allow-save]')) e.preventDefault()
+  })
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
